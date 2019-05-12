@@ -1,12 +1,12 @@
 close all; clear all
 
 %erf
-file_erf='erf_041019.mat';
+file_erf='erp_avg_outside.mat';
 
 %fwd
-file_fwd='meg_fwd_042319.mat';
+file_fwd='eeg_fwd_042319.mat';
 
-output_stem='meg_042319';
+output_stem='eeg_042319';
 
 SNR=100;
 %%%%%%%%%%%%%%

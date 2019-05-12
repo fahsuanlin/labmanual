@@ -1,0 +1,8 @@
+om_assemble -HeadMat 041019_d10_bem.geom 041019_d10_bem.cond 041019_d10.hm 
+om_assemble -DSM 041019_d10_bem.geom 041019_d10_bem.cond 041019_d10-lh.dip 041019_d10-lh.dsm brain 
+om_assemble -DSM 041019_d10_bem.geom 041019_d10_bem.cond 041019_d10-rh.dip 041019_d10-rh.dsm brain 
+om_assemble -h2em 041019_d10_bem.geom 041019_d10_bem.cond 041019_d10_eeg.eegsensors 041019_d10.h2em
+om_minverser 041019_d10.hm 041019_d10.hm_inv
+om_gain -EEG 041019_d10.hm_inv 041019_d10-lh.dsm 041019_d10.h2em eeg_lh_gain.mat
+om_gain -EEG 041019_d10.hm_inv 041019_d10-rh.dsm 041019_d10.h2em eeg_rh_gain.mat
+
