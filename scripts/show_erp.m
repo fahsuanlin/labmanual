@@ -36,7 +36,7 @@ if(flag_baseline_correct)
     data=bsxfun(@minus,data,mean(data(:,base_idx),2));
 end;
 
-h=etc_plotEF_kit(data,'timeVec',timeVec,'label',label,'hdr',hdr);
+h=etc_plotEF_kit(data,'timeVec',timeVec,'label',label,'hdr',hdr,'threshold',[-5 5]);
 
 return;
 
