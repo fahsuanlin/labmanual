@@ -27,7 +27,6 @@ for hemi_idx=1:2
         fprintf('[%d] sources\n',n_source(hemi_idx));
     end;
     Aa=reshape(A(hemi_idx).A,[n_chan, 3, n_source(hemi_idx)]);
-    Aa=permute(Aa,[1 3 2]);
     A_2d{hemi_idx}=reshape(Aa,[n_chan n_dip(hemi_idx)]);
     A2D=cat(2,A2D,A_2d{hemi_idx});
 end;
@@ -64,8 +63,8 @@ for trig_idx=1:size(erp,2)
     Y_pred=zeros(size(Y));
 
     X_mne0=W2D*Y;
-    X_mne=reshape(X_mne0,[sum(n_source) 3 size(Y,2)]);
-    X_mne=squeeze(sqrt(sum(X_mne.^2,2)));
+    X_mne=reshape(X_mne0,[3 sum(n_source) size(Y,2)]);
+    X_mne=squeeze(sqrt(sum(X_mne.^2,1)));
     
     %Y_pred=A2D*X_mne0;
     
