@@ -32,7 +32,7 @@ sync_token=1e2;
 flag_reref= [1 1 1 1]; %referencing: remove the average time course across all electrodes from the time course at each individual electrode
 flag_hp=    [1 1 1 1]; %high pass filtering at 0.1 Hz
 flag_aas=   [0 0 0 0]; %AAS for gradient artifact suppression
-flag_bcg=    [1 1 1 1]; %BCG artifact suppression
+flag_bcg=    [0 0 0 0]; %BCG artifact suppression
 
 time_trim=[20];     %trim off the first few seconds...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
