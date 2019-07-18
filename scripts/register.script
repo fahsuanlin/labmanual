@@ -1,0 +1,2 @@
+fslregister --s 190629_EP56 --mov bold/004/f.nii --reg ./register.dat --maxangle 70 --initxfm
+
