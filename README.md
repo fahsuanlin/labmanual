@@ -1,6 +1,6 @@
 ![](https://github.com/fahsuanlin/labmanual/blob/master/images/background.png)
 
-Welcome to the wiki of my lab! Here are lots of scripts for magnetic resonance imaging (MRI), magnetoencephalography (MEG), and electroencephalography (EEG). 
+Welcome to the wiki of my lab! Here are lots of scripts for magnetic resonance imaging (MRI), magnetoencephalography (MEG), and electroencephalography (EEG) research. 
 
 Goto the [wiki page](https://github.com/fahsuanlin/labmanual/wiki) for further details.
 
