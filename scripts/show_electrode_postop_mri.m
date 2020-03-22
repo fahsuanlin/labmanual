@@ -21,5 +21,5 @@ xfm=etc_read_xfm('file_xfm','/Users/fhlin_admin/workspace/seeg/subjects/s031_pos
 talxfm=etc_read_xfm('file_xfm','/Users/fhlin_admin/workspace/seeg/subjects/s031/mri/transforms/talairach.xfm'); %for MAC/Linux
 %talxfm=etc_read_xfm('file_xfm','D:\fhlin\Users\fhlin_admin\workspace\seeg\subjects\2036\mri\transforms\talairach.xfm'); %for PC
 
-etc_render_fsbrain('surf','inflated','hemi','rh','subject','s031_post','vol',mri_post,'vol_pre_xfm',inv(xfm)*mri.vox2ras*inv(mri_post.vox2ras),'talxfm',(talxfm));
+etc_render_fsbrain('surf','orig','hemi','rh','subject','s031_post','vol',mri_post,'vol_pre_xfm',(mri.vox2ras)*inv(mri.tkrvox2ras)*inv(xfm)*(mri_post.tkrvox2ras)*inv(mri_post.vox2ras),'talxfm',(talxfm));
 view(90,30);
