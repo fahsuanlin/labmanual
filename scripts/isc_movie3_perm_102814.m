@@ -38,7 +38,8 @@ hemi={
     };
 
 %root_path='/space/maki5/1/users/fhlin/chaplin_fmri/epi_data';
-root_path='/Users/fhlin_admin/workspace/chaplin/epi_data/chaplin_epi';
+root_path='/space_lin2/fhlin/chaplin/epi_data/chaplin_epi';
+%root_path='/Users/fhlin_admin/workspace/chaplin/epi_data/chaplin_epi';
 
 n_perm=1000;
 
@@ -102,7 +103,7 @@ for stc_idx=1:length(stc_folder)
         end;
         inverse_write_stc(cc,a,b,c,sprintf('%s-%s.stc',oo,hemi{hemi_idx}));
         inverse_write_stc(repmat(ccm(:),[1 5]),a,b,c,sprintf('%s_median-%s.stc',oo,hemi{hemi_idx}));
-            
+        
         data0=data;
         for perm_idx=1:n_perm
             fprintf('*');
@@ -120,10 +121,10 @@ for stc_idx=1:length(stc_folder)
                 cc(v_idx,:)=z(:)';
                 
                 
-                if(perm_idx==1&&hemi_idx==1&&stc_idx==1)
+                if(v_idx==1&&perm_idx==1&&hemi_idx==1&&stc_idx==1)
                     effect_perm=zeros(length(zm),n_perm,2,length(stc_folder));
                 end;
-                effect_perm(:,perm_idx,hemi_idx,stc_idx)=zm(:);
+                effect_perm(v_idx,perm_idx,hemi_idx,stc_idx)=zm;
             end;
             
         end;
