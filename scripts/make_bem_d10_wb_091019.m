@@ -1,11 +1,11 @@
 clear all; close all
 
-setenv('SUBJECTS_DIR','/Users/fhlin_admin/workspace/seeg/subjects/'); %for MAC/Linux
+setenv('SUBJECTS_DIR','/space_lin2/fhlin/seeg_ictal_source/subjects/'); %for MAC/Linux
 
 %source space
-file_source_fif='/Users/fhlin_admin/workspace/seeg/subjects/s031/bem/s031-5-src.fif';
-file_source_wholebrain='/Users/fhlin_admin/workspace/seeg/subjects/s031/mri/aseg.mgz';
-file_source_wholebrain_orig='/Users/fhlin_admin/workspace/seeg/subjects/s031/mri/orig.mgz';
+file_source_fif='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027/bem/seeg027-5-src.fif';
+file_source_wholebrain='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027/mri/aseg.mgz';
+file_source_wholebrain_orig='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027/mri/orig.mgz';
 
 wholebrain_index={
     [9 10 11 12 13 16 17 18 19 20 26 27 ];
@@ -37,17 +37,17 @@ wholebrain_index={
 % 59  Right-Substancia-Nigra                  0   255 127 0
 
 
-surf_outer_skin='/Users/fhlin_admin/workspace/seeg/subjects/s031/bem/outer_skin_d10.surf';
-surf_outer_skull='/Users/fhlin_admin/workspace/seeg/subjects/s031/bem/outer_skull_d10.surf';
-surf_inner_skull='/Users/fhlin_admin/workspace/seeg/subjects/s031/bem/inner_skull_d10.surf';
+surf_outer_skin='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027/bem/outer_skin_d10.surf';
+surf_outer_skull='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027/bem/outer_skull_d10.surf';
+surf_inner_skull='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027/bem/inner_skull_d10.surf';
 
 %SEEG contact info
-file_seeg_contact_postMR='electrode_040119_085342.mat';
-file_xfm='/Users/fhlin_admin/workspace/seeg/subjects/s031_post/tmp/register.dat';
-file_MRI_post='/Users/fhlin_admin/workspace/seeg/subjects/s031_post/mri/orig.mgz';
+file_seeg_contact_postMR='electrode_081420_152935.mat';
+file_xfm='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027_post/tmp/register.dat';
+file_MRI_post='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027_post/mri/orig.mgz';
 
 
-output_stem='s031_d10_wb_091019';
+output_stem='seeg027_d10_wb_091019';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%LOADING THE SOURCE SPACE%%%%%%%%%%%%%%%%%%%%
@@ -76,6 +76,23 @@ if(~isempty(file_source_wholebrain))
             tmp=src_wb.tkrvox2ras*[rr cc ss 1]';
             wb_coord{hemi_idx}(idx,:)=tmp(1:3)'; %this is the coordinate of whole-brain source in the surface coordinates
         end;
+        
+        [cc,rr,ss]=ind2sub(size(src_wb_orig.vol),src_wb_idx{hemi_idx}(:));
+        cc_min=min(cc(:));
+        cc_max=max(cc(:));
+        rr_min=min(rr(:));
+        rr_max=max(rr(:));
+        ss_min=min(ss(:));
+        ss_max=max(ss(:));
+        cc_idx=ismember(cc(:),[cc_min:2:cc_max]);
+        rr_idx=ismember(rr(:),[rr_min:2:rr_max]);
+        ss_idx=ismember(ss(:),[ss_min:2:ss_max]);
+        crs_idx=(cc_idx&rr_idx&ss_idx);
+        src_wb_idx{hemi_idx}=src_wb_idx{hemi_idx}(crs_idx);
+        wb_coord{hemi_idx}=wb_coord{hemi_idx}(crs_idx,:);
+%         rr=rr(find(crs_idx));
+%         cc=cc(find(crs_idx));
+%         ss=ss(find(crs_idx));
     end;
 end;
 
@@ -158,6 +175,10 @@ for f_idx=1:size(faces_isk,1)
 end;
 fclose(fp);
 
+
+tri = delaunayn([verts_isk(:,1) verts_isk(:,2) verts_isk(:,3)]); % Generate delaunay triangulization
+        
+
 fprintf('making outer skull mesh file...\n');
 fp=fopen(sprintf('skull.tri'),'w');
 fprintf(fp,'- %d\n',size(verts_osk,1));
@@ -209,6 +230,11 @@ for e_idx=1:length(electrode)
         
         fprintf(fp,'%f %f %f \n',electrode_out(e_idx).coord(c_idx,1),electrode_out(e_idx).coord(c_idx,2),electrode_out(e_idx).coord(c_idx,3));
         
+        tn = tsearchn([verts_isk(:,1) verts_isk(:,2) verts_isk(:,3)], tri, [electrode_out(e_idx).coord(c_idx,1),electrode_out(e_idx).coord(c_idx,2),electrode_out(e_idx).coord(c_idx,3)]); % Determine which triangle point is within
+        if(isnan(tn))
+            fprintf('e [%d] c[%d] (%s) is outside inner skull!\n',e_idx,c_idx,mat2str(electrode_out(e_idx).coord(c_idx,:),2));
+        end;
+        
         hold on;
         h=plot3(electrode_out(e_idx).coord(c_idx,1),electrode_out(e_idx).coord(c_idx,2),electrode_out(e_idx).coord(c_idx,3),'b.');
         set(h,'markersize',16);
@@ -231,9 +257,11 @@ for s_idx=1:length(src)
    end;
    
    for v_idx=1:size(wb_coord{s_idx},1)
-        fprintf(fp,'%f %f %f %f %f %f\n',wb_coord{s_idx}(v_idx,1),wb_coord{s_idx}(v_idx,2),wb_coord{s_idx}(v_idx,3),1,0,0); 
-        fprintf(fp,'%f %f %f %f %f %f\n',wb_coord{s_idx}(v_idx,1),wb_coord{s_idx}(v_idx,2),wb_coord{s_idx}(v_idx,3),0,1,0); 
-        fprintf(fp,'%f %f %f %f %f %f\n',wb_coord{s_idx}(v_idx,1),wb_coord{s_idx}(v_idx,2),wb_coord{s_idx}(v_idx,3),0,0,1);         
+       %if(wb_coord{s_idx}(v_idx,3)>-66)
+           fprintf(fp,'%f %f %f %f %f %f\n',wb_coord{s_idx}(v_idx,1),wb_coord{s_idx}(v_idx,2),wb_coord{s_idx}(v_idx,3),1,0,0);
+           fprintf(fp,'%f %f %f %f %f %f\n',wb_coord{s_idx}(v_idx,1),wb_coord{s_idx}(v_idx,2),wb_coord{s_idx}(v_idx,3),0,1,0);
+           fprintf(fp,'%f %f %f %f %f %f\n',wb_coord{s_idx}(v_idx,1),wb_coord{s_idx}(v_idx,2),wb_coord{s_idx}(v_idx,3),0,0,1);
+       %end;
    end;
    
    hold on;
@@ -242,6 +270,8 @@ for s_idx=1:length(src)
    cort{s_idx}(:,2)=src(s_idx).rr(src(s_idx).vertno(:),2).*1e3;
    cort{s_idx}(:,3)=src(s_idx).rr(src(s_idx).vertno(:),3).*1e3;
    
+   %idx=find(wb_coord{s_idx}(:,3)>-66);
+   %plot3(wb_coord{s_idx}(idx,1),wb_coord{s_idx}(idx,2),wb_coord{s_idx}(idx,3),'g.');
    plot3(wb_coord{s_idx}(:,1),wb_coord{s_idx}(:,2),wb_coord{s_idx}(:,3),'g.');
    fclose(fp);
 end;
