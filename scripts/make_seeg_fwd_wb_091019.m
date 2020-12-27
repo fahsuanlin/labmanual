@@ -2,17 +2,22 @@ close all; clear all;
 
 %forward solution from OpenMEEG
 file_fwd={
-    's031_d10_wb_091019-lh.gain.mat';
-    's031_d10_wb_091019-rh.gain.mat';
+    'seeg027_d10_wb_091019-lh.gain.mat';
+    'seeg027_d10_wb_091019-rh.gain.mat';
     };
 
 %SEEG contact info
-file_seeg_contact_postMR='electrode_040119_085342.mat';
+file_seeg_contact_postMR='electrode_081420_152935.mat';
 
 %source space
-file_source_fif='/Users/fhlin_admin/workspace/seeg/subjects/s031/bem/s031-5-src.fif';
-file_source_wholebrain='/Users/fhlin_admin/workspace/seeg/subjects/s031/mri/aseg.mgz';
-file_source_wholebrain_orig='/Users/fhlin_admin/workspace/seeg/subjects/s031/mri/orig.mgz';
+%file_source_fif='/space_lin2/fhlin/seeg/subjects/seeg027/bem/seeg027-5-src.fif';
+%file_source_wholebrain='/space_lin2/fhlin/seeg/subjects/seeg027/mri/aseg.mgz';
+%file_source_wholebrain_orig='/space_lin2/fhlin/seeg/subjects/seeg027/mri/orig.mgz';
+
+
+file_source_fif='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027/bem/seeg027-5-src.fif';
+file_source_wholebrain='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027/mri/aseg.mgz';
+file_source_wholebrain_orig='/space_lin2/fhlin/seeg_ictal_source/subjects/seeg027/mri/orig.mgz';
 
 wholebrain_index={
     [9 10 11 12 13 16 17 18 19 20 26 27 ];
@@ -69,6 +74,25 @@ if(~isempty(file_source_wholebrain))
             tmp=src_wb.tkrvox2ras*[rr cc ss 1]';
             wb_coord{hemi_idx}(idx,:)=tmp(1:3)'; %this is the coordinate of whole-brain source in the surface coordinates
         end;
+
+        [cc,rr,ss]=ind2sub(size(src_wb_orig.vol),src_wb_idx{hemi_idx}(:));
+        cc_min=min(cc(:));
+        cc_max=max(cc(:));
+        rr_min=min(rr(:));
+        rr_max=max(rr(:));
+        ss_min=min(ss(:));
+        ss_max=max(ss(:));
+        cc_idx=ismember(cc(:),[cc_min:2:cc_max]);
+        rr_idx=ismember(rr(:),[rr_min:2:rr_max]);
+        ss_idx=ismember(ss(:),[ss_min:2:ss_max]);
+        crs_idx=(cc_idx&rr_idx&ss_idx);
+        src_wb_idx{hemi_idx}=src_wb_idx{hemi_idx}(crs_idx);
+
+        wb_coord_full{hemi_idx}=wb_coord{hemi_idx};
+        wb_index_full{hemi_idx}=wb_index{hemi_idx};
+
+        wb_coord{hemi_idx}=wb_coord{hemi_idx}(crs_idx,:);
+        wb_index{hemi_idx}=wb_index{hemi_idx}(crs_idx);
     end;
 end;
 
@@ -92,7 +116,10 @@ for hemi_idx=1:2
     A(hemi_idx).source_file=file_source_fif;
     A(hemi_idx).name=name;
     
-
+    A(hemi_idx).src_wb_idx=src_wb_idx{hemi_idx};
+    A(hemi_idx).wb_loc_full=wb_coord_full{hemi_idx}./1e3; %coordinates
+    A(hemi_idx).wb_index_full=wb_index_full{hemi_idx}; %label based on FreeSurfer LUT
+    
     A(hemi_idx).wb_loc=wb_coord{hemi_idx}./1e3; %coordinates
     A(hemi_idx).wb_index=wb_index{hemi_idx}; %label based on FreeSurfer LUT
     A(hemi_idx).wb_source_file=file_source_wholebrain;
