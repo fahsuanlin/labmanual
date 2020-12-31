@@ -1,29 +1,45 @@
 close all; clear all
 
 %erf
-file_erf='erf_050719.mat';
+file_erf='erf_082019.mat';
+flag_auto_remove_comma=0; %remove ' from the electrode name automatically
 
 %fwd
-file_fwd='seeg_fwd_wb_091019.mat';
+file_fwd='seeg_fwd_wb_3dslicer_091019.mat';
 
 output_stem='seeg_wb_mne_091019';
 
-SNR=10;
+subject='s047';
+target_subject='fsaverage';
+
+SNR=1000;
 %%%%%%%%%%%%%%
 
 load(file_erf);
 
 load(file_fwd);
 
+data_idx_remove=[];
 %search correspondence
+A_idx_tmp=zeros(1, length(erf_all(1).name)).*nan;
 for d_idx=1:length(erf_all(1).name)
     n=erf_all(1).name{d_idx};
     n=n(2:end);
-    n=erase(n,"'");
+    if(flag_auto_remove_comma)
+        n=erase(n,"'");
+    end;
     
     %find the matched lead fields in the forward solution
-    A_idx(d_idx)=find(strcmp(A(1).name, n));
+    ii=find(strcmp(A(1).name, n));
+    if(~isempty(ii))
+        A_idx_tmp(d_idx)=find(strcmp(A(1).name, n));
+    else
+        data_idx_remove(end+1)=d_idx;
+        fprintf('channel [%s] in data has no corresponding entry in the electrode list!\n',n);
+    end;
 end;
+ii=(find(~isnan(A_idx_tmp)));
+A_idx=A_idx_tmp(ii);
 
 A2D=[];
 for hemi_idx=1:2
@@ -63,6 +79,8 @@ for idx=1:length(erf_all)
     if(idx==1) Ctmp=C(idx).C; else Ctmp=Ctmp+C(idx).C; end;
 end;
 C=Ctmp./length(erf_all);
+C(data_idx_remove,:)=[];
+C(:,data_idx_remove)=[];
 
 C=diag(diag(C));
 p_noise=sum(diag(C));
@@ -77,9 +95,11 @@ for trig_idx=1:size(erf_all,2)
     Y=bsxfun(@minus,Y,mean(Y(:,baseline),2));
     
     Y_pred=zeros(size(Y));
-
+    
+    Y(data_idx_remove,:)=[];
+    
     X_mne0=W2D*Y;
-   
+    
     X_mne=reshape(X_mne0,[3 sum(n_source) size(Y,2)]);
     X_mne=squeeze(sqrt(sum(X_mne.^2,1)));
     clear X_mne0;
@@ -91,11 +111,13 @@ for trig_idx=1:size(erf_all,2)
     for hemi_idx=1:2
         switch hemi_idx
             case 1
+                hemi='lh';
                 fn=sprintf('%s_%s-lh.stc',output_stem,erf_all(trig_idx).trig_str);
                 X_hemi=X_dspm(1:length(A(hemi_idx).v_idx),:);
                 fn_mne=sprintf('%s_%s_mne-lh.stc',output_stem,erf_all(trig_idx).trig_str);
                 X_hemi_mne=X_mne(1:length(A(hemi_idx).v_idx),:);
             case 2
+                hemi='rh';
                 fn=sprintf('%s_%s-rh.stc',output_stem,erf_all(trig_idx).trig_str);
                 X_hemi=X_dspm(n_source(1)+1:n_source(1)+length(A(hemi_idx).v_idx),:);
                 fn_mne=sprintf('%s_%s_mne-rh.stc',output_stem,erf_all(trig_idx).trig_str);
@@ -106,6 +128,22 @@ for trig_idx=1:size(erf_all,2)
         fprintf('\tsaving [%s]...\n',fn_mne);
         inverse_write_stc(X_hemi_mne,A(hemi_idx).v_idx,min(erf_all(trig_idx).timeVec),t0,fn_mne);
     end;
+
+    %morphing...
+    for hemi_idx=1:2
+        switch hemi_idx
+            case 1
+                hemi='lh';
+            case 2
+                hemi='rh';
+        end;
+        fn_out=sprintf('%s_2_%s_%s_%s-%s.stc',subject,target_subject,output_stem,erf_all(trig_idx).trig_str,hemi);
+        cmd=sprintf('!mne_make_movie --subject %s --stcin %s --morph %s --stc %s --%s --smooth 5', subject, fn, target_subject, fn_out, hemi);
+        eval(cmd);
+        fn_mne_out=sprintf('%s_2_%s_%s_%s_mne-%s.stc',subject,target_subject,output_stem,erf_all(trig_idx).trig_str,hemi);
+        cmd=sprintf('!mne_make_movie --subject %s --stcin %s --morph %s --stc %s --%s --smooth 5', subject, fn_mne, target_subject, fn_mne_out, hemi);
+        eval(cmd);
+    end;
     
     fn=sprintf('%s_%s-vol.stc',output_stem,erf_all(trig_idx).trig_str);
     fprintf('\tsaving [%s]...\n',fn);
@@ -113,6 +151,7 @@ for trig_idx=1:size(erf_all,2)
     
     fn=sprintf('%s_%s_mne-vol.stc',output_stem,erf_all(trig_idx).trig_str);
     fprintf('\tsaving [%s]...\n',fn);
-    inverse_write_stc(X_mne,[0:size(X_dspm,1)-1],min(erf_all(trig_idx).timeVec),t0,fn);
+    inverse_write_stc(X_mne,[0:size(X_mne,1)-1],min(erf_all(trig_idx).timeVec),t0,fn);
+    
     
 end;
