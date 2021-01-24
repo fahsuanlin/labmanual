@@ -1,18 +1,23 @@
 close all; clear all;
 clear global  etc_render_fsbrain;
 
-setenv('SUBJECTS_DIR','/Users/fhlin_admin/workspace/seeg/subjects/');
+%setenv('SUBJECTS_DIR','/Users/fhlin_admin/workspace/seeg/subjects/');
+setenv('SUBJECTS_DIR','/space/maki7/1/fhlin/seeg/subjects/');
 subject='s031';
 surf='orig';
 
 file_forward_mat='seeg_fwd_wb_091019.mat';
 
-mri=MRIread('/Users/fhlin_admin/workspace/seeg/subjects/s026/mri/orig.mgz'); %for MAC/Linux
+%mri=MRIread('/Users/fhlin_admin/workspace/seeg/subjects/s031/mri/orig.mgz'); %for MAC/Linux
+mri=MRIread('/space/maki7/1/fhlin/seeg/subjects/s031/mri/orig.mgz'); %for MAC/Linux
 
 file_stc={
-    'seeg_wb_mne_091019_a_mne-vol.stc';
-    'seeg_wb_mne_091019_v_mne-vol.stc';
-    'seeg_wb_mne_091019_av_mne-vol.stc';
+%    'seeg_wb_mne_091019_a_mne-vol.stc';
+%    'seeg_wb_mne_091019_v_mne-vol.stc';
+%    'seeg_wb_mne_091019_av_mne-vol.stc';
+    'seeg_wb_mne_091019_a-vol.stc';
+    'seeg_wb_mne_091019_v-vol.stc';
+    'seeg_wb_mne_091019_av-vol.stc';
     };
 
 output_stem='';
@@ -144,12 +149,12 @@ for f_idx=1:length(file_stc)
             end;
             
             mri_overlay.vol=tmp;
-            
+        
             if(t_idx==1)
                 if(strcmp(target_subject,'fsaverage'))
-                    targ=MRIread('/Applications/freesurfer/average/mni305.cor.subfov2.mgz'); %MNI-Talairach space with 2mm resolution (for MAC)
-                    %targ=MRIread(sprintf('%s/average/mni305.cor.subfov2.mgz',getenv('FREESURFER_HOME'))); %MNI-Talairach space with 2mm resolution (for server)
-                   
+                    %targ=MRIread('/Applications/freesurfer/average/mni305.cor.subfov2.mgz'); %MNI-Talairach space with 2mm resolution (for MAC)
+                    targ=MRIread(sprintf('%s/average/mni305.cor.subfov2.mgz',getenv('FREESURFER_HOME'))); %MNI-Talairach space with 2mm resolution (for server)
+
                     fprintf('loading transformation for subject p%s]...\n',subject);
                     mov_xfm=etc_read_xfm('subject',subject);
                 end;
@@ -164,11 +169,10 @@ for f_idx=1:length(file_stc)
                 mri_overlay_tal.nframes=length(timeVec);
                 mri_overlay_tal.vol=zeros(mri_overlay_tal.volsize(1),mri_overlay_tal.volsize(2),mri_overlay_tal.volsize(3),length(timeVec));
             end;
-            %mov=MRIread(fn_output);
+	    %mov=MRIread(fn_output);
             R=inv(mri_overlay.vox2ras)*inv(mov_xfm)*(targ.vox2ras);
             tmp=etc_MRIvol2vol(mri_overlay,targ,R);
             mri_overlay_tal.vol(:,:,:,t_idx)=tmp.vol;
-            
         catch ME
         end;
         
@@ -179,4 +183,6 @@ for f_idx=1:length(file_stc)
 
 end;
 
+%without specified electrode
+%etc_render_fsbrain('surf','orig','hemi','lh','subject','s031','vol',mri,'talxfm',(talxfm),'overlay_vol_stc',vol_stc,'vol_A',A);
 
