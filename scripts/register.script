@@ -1,6 +1,3 @@
-fslregister --s 191115_social --mov ./mb_run_1_ref.mgh --reg ./register_01.dat --maxangle 70 --initxfm
-fslregister --s 191115_social --mov ./mb_run_2_ref.mgh --reg ./register_02.dat --maxangle 70 --initxfm
-fslregister --s 191115_social --mov ./mb_run_3_ref.mgh --reg ./register_03.dat --maxangle 70 --initxfm
-fslregister --s 191115_social --mov ./mb_run_4_ref.mgh --reg ./register_04.dat --maxangle 70 --initxfm
-fslregister --s 191115_social --mov ./mb_run_5_ref.mgh --reg ./register_05.dat --maxangle 70 --initxfm
-fslregister --s 191115_social --mov ./mb_run_6_ref.mgh --reg ./register_06.dat --maxangle 70 --initxfm
+fslregister --s 060820 --mov ./smsini_mb_run_1_ref.mgh --reg ./register_01.dat --maxangle 70 --initxfm
+fslregister --s 060820 --mov ./smsini_mb_run_2_ref.mgh --reg ./register_02.dat --maxangle 70 --initxfm
+
