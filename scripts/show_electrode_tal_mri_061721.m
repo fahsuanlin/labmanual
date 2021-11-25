@@ -29,6 +29,10 @@ talxfm=etc_read_xfm('file_xfm',sprintf('%s/%s/mri/transforms/talairach.xfm',subj
 %talxfm=etc_read_xfm('file_xfm','D:\fhlin\Users\fhlin\workspace\seeg\subjects\2036\mri\transforms\talairach.xfm'); %for PC
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[dummy,fstem]=fileparts(file_electrode);
+orig_subject=fstem(end-3:end);
+
 %load electrode
 if(~isempty(file_electrode))
     load(file_electrode);
@@ -107,5 +111,9 @@ etc_render_fsbrain_handle('redraw');
 hgexport(gcf,'electrode_label_tal_brain_061721', hgexport('factorystyle'),'Format','png');
 
 E=electrode(electrode_idx);
-E.name=sprintf('%s_%s',E.name,subject);
+E.name=sprintf('%s_%s',E.name,orig_subject);
+E.contact_idx=contact_idx;
+
+save electrode_tal_mri_061721.mat E
+
 return;
