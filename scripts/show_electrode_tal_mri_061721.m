@@ -1,12 +1,12 @@
 close all; clear all;
 
-subject='s031';
+subject='fsaverage';
 surf='orig';
 hemi='rh';
 
-file_label='aud_HCPMMP1-rh_s031.label';
+file_label='../../average/aud_HCPMMP1-rh.label';
 
-file_electrode='electrode_101721_223845_s031.mat'; %electrode coordinates in *pre-op* MRI
+file_electrode='electrode_101721_223845_tal_s031.mat'; %electrode coordinates in MNI MRI
 
 file_roi='electrodes_to_labels_061721.mat';
 roi_idx=4; %auditory cortex; right hemisphere
@@ -104,5 +104,8 @@ etc_render_fsbrain.selected_contact_color=[0 1 1];
 etc_render_fsbrain_handle('redraw');
 
 
-hgexport(gcf,'electrode_label_brain_061721', hgexport('factorystyle'),'Format','png');
+hgexport(gcf,'electrode_label_tal_brain_061721', hgexport('factorystyle'),'Format','png');
+
+E=electrode(electrode_idx);
+E.name=sprintf('%s_%s',E.name,subject);
 return;
