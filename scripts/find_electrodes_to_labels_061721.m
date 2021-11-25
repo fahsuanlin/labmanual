@@ -136,12 +136,16 @@ for label_idx=1:length(file_label)
             roi(label_idx).electrode_min_dist_electrode_contact=cc;
             roi(label_idx).electrode_min_dist=dummy(1);
             target_electrode_contact=sprintf('%s%d',electrode(ee).name,cc);
-            IndexC = strfind(erf_all(1).name,target_electrode_contact);
-            Index = find(not(cellfun('isempty',IndexC)));
+            %IndexC = strfind(erf_all(1).name,target_electrode_contact);
+            %Index = find(not(cellfun('isempty',IndexC)));
+            IndexC = strcmp(erf_all(1).name,target_electrode_contact);
+            Index = find(IndexC);
             if(~isempty(Index))
                 flag_found=1;
                 for cond_idx=1:length(erf_all)
                     roi(label_idx).erf_electrode_min_dist(cond_idx).data=squeeze(erf_all(cond_idx).erf_raw(Index,:,:));
+                    roi(label_idx).erf_electrode_min_dist(cond_idx).timeVec=erf_all(cond_idx).timeVec;
+                    roi(label_idx).erf_electrode_min_dist(cond_idx).trig_str=erf_all(cond_idx).trig_str;
                 end;
             else
                 electrode_idx=electrode_idx+1;
@@ -168,12 +172,16 @@ for label_idx=1:length(file_label)
             roi(label_idx).electrode_com_dist_electrode_contact=cc;
             roi(label_idx).electrode_com_dist=dummy(1);
             target_electrode_contact=sprintf('%s%d',electrode(ee).name,cc);
-            IndexC = strfind(erf_all(1).name,target_electrode_contact);
-            Index = find(not(cellfun('isempty',IndexC)));
+            %IndexC = strfind(erf_all(1).name,target_electrode_contact);
+            %Index = find(not(cellfun('isempty',IndexC)));
+            IndexC = strcmp(erf_all(1).name,target_electrode_contact);
+            Index = find(IndexC);
             if(~isempty(Index))
                 flag_found=1;
                 for cond_idx=1:length(erf_all)
                     roi(label_idx).erf_electrode_com_dist(cond_idx).data=squeeze(erf_all(cond_idx).erf_raw(Index,:,:));
+                    roi(label_idx).erf_electrode_com_dist(cond_idx).timeVec=erf_all(cond_idx).timeVec;
+                    roi(label_idx).erf_electrode_com_dist(cond_idx).trig_str=erf_all(cond_idx).trig_str;
                 end;
             else
                 electrode_idx=electrode_idx+1;
