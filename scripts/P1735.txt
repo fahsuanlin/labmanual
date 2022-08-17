@@ -1,0 +1,10 @@
+Standard Offset File
+User Descriptor
+Pointer
+Passive Polaris Rigid Body File
+P1735.rom
+Rotation-Translation Matrix
+  0.99989349   0.00918648   0.00514197   0.00000000
+ -0.00914172   0.99986023  -0.00864530   0.00000000
+ -0.00522121   0.00859825   0.99993992   0.00000000
+  0.60738361 -14.31798649 -92.51882935   1.00000000
