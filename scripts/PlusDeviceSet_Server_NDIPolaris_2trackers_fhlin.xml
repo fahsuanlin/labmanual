@@ -1,0 +1,46 @@
+<PlusConfiguration version="2.1">
+
+  <DataCollection StartupDelaySec="1.0" >
+    <DeviceSet 
+      Name="PlusServer: NDI Polaris tracker with passive markers" 
+      Description="2 trackers" />
+    <Device
+      Id="TrackerDevice"
+      Type="NDITracker"
+      NetworkHostname="P9-10219"
+      NetworkPort="8765"
+      ToolReferenceFrame="Tracker" >
+      <DataSources>
+        <DataSource Type="Tool" Id="Tool" RomFile="NdiToolDefinitions/P1735.rom"  />
+        <DataSource Type="Tool" Id="St" RomFile="NdiToolDefinitions/ST1455.rom"  />
+        <DataSource Type="Tool" Id="Ref" RomFile="NdiToolDefinitions/HeadBand.rom"  />
+      </DataSources>
+      <OutputChannels>
+        <OutputChannel Id="TrackerStream" >
+          <DataSource Id="Tool"/>
+          <DataSource Id="St"/>
+	    <DataSource Id="Ref"/>
+        </OutputChannel>
+      </OutputChannels>
+    </Device>
+  </DataCollection>
+
+  <PlusOpenIGTLinkServer 
+    MaxNumberOfIgtlMessagesToSend="1" 
+    MaxTimeSpentWithProcessingMs="50" 
+    ListeningPort="18944" 
+    SendValidTransformsOnly="false" 
+    OutputChannelId="TrackerStream" > 
+    <DefaultClientInfo> 
+      <MessageTypes> 
+        <Message Type="TRANSFORM" />
+      </MessageTypes>
+      <TransformNames> 
+        <Transform Name="ToolToTracker" />
+        <Transform Name="StToTracker" />
+        <Transform Name="RefToTracker" />
+      </TransformNames>
+    </DefaultClientInfo>
+  </PlusOpenIGTLinkServer>
+
+</PlusConfiguration>
