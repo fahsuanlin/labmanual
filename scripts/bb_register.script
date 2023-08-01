@@ -1,0 +1,9 @@
+#fslregister --s s002 --mov epi_005_f.mgh --reg ./register_005.dat --maxangle 70 --initxfm
+bbregister --s s002 --mov epi_005_f.mgh --init-reg bb_register_init.dat --reg bb_register_epi_005.dat --bold
+bbregister --s s002 --mov epi_018_f.mgh --init-reg bb_register_init.dat --reg bb_register_epi_018.dat --bold
+bbregister --s s002 --mov epi_027_f.mgh --init-reg bb_register_init.dat --reg bb_register_epi_027.dat --bold
+bbregister --s s002 --mov epi_036_f.mgh --init-reg bb_register_init.dat --reg bb_register_epi_036.dat --bold
+bbregister --s s002 --mov epi_045_f.mgh --init-reg bb_register_init.dat --reg bb_register_epi_045.dat --bold
+bbregister --s s002 --mov epi_054_f.mgh --init-reg bb_register_init.dat --reg bb_register_epi_054.dat --bold
+bbregister --s s002 --mov epi_063_f.mgh --init-reg bb_register_init.dat --reg bb_register_epi_063.dat --bold
+
