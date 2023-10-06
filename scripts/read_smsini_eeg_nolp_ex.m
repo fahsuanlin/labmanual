@@ -78,7 +78,7 @@ for f_idx=1:length(headerFile)
     eeg_orig=eeg{f_idx}(eeg_channel,:);
     ecg{f_idx}=eeg{f_idx}(ecg_channel,:)';
     eeg{f_idx}=eeg{f_idx}(eeg_channel,:);
-    
+    selected_label=label(cat(1,eeg_channel(:),ecg_channel(:)));
     
     %read maker file
     fprintf('\treading triggers...\n');
