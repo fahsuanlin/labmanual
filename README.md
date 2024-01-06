@@ -16,5 +16,5 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 ## fMRI
 - [fMRI preprocessing](https://github.com/fahsuanlin/labmanual/wiki/10.-fMRI-data-preprocessing) includes motion correction, slice timing correction, and spatial smoothing
 
-- [Tasked fMRI analysis](https://github.com/fahsuanlin/labmanual/wiki/10.-fMRI-data-preprocessing) uses General Linear Modeling to identify brain regions correlated with a model of stimulatin, task performance, or other explicit (time-domain) models.
+- [Tasked fMRI analysis](https://github.com/fahsuanlin/labmanual/wiki/11.-fMRI-analysis) uses General Linear Modeling to identify brain regions correlated with a model of stimulatin, task performance, or other explicit (time-domain) models.
 
