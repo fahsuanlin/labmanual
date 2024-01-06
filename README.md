@@ -9,14 +9,31 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 [Contact me](mailto:fhlin@sri.utoronto.ca) if there is any question/error.
 
 
-## MRI
+## Structural MRI
 
 - [FreeSurfer reconstruction](https://github.com/fahsuanlin/labmanual/wiki/0A.-FreeSurfer-reconstruction) for brain 3D models and anatomical segementation, labels, parameters .
 
-## fMRI
+- [Diffusion tensor imaging (DTI) analysis](https://github.com/fahsuanlin/labmanual/wiki/17.-DTI-analysis)
+
+## functional MRI (fMRI)
+
 - [Unpack dicom files for analysis](https://github.com/fahsuanlin/labmanual/wiki/09.-unpack-dicom).
   
-- [fMRI preprocessing](https://github.com/fahsuanlin/labmanual/wiki/10.-fMRI-data-preprocessing) includes motion correction, slice timing correction, and spatial smoothing
+- [fMRI preprocessing](https://github.com/fahsuanlin/labmanual/wiki/10.-fMRI-data-preprocessing) includes motion correction, slice timing correction, and spatial smoothing.
 
 - [Tasked fMRI analysis](https://github.com/fahsuanlin/labmanual/wiki/11.-fMRI-analysis) uses General Linear Modeling to identify brain regions correlated with a model of stimulatin, task performance, or other explicit (time-domain) models.
 
+- [Inter-subject correlation analysis](https://github.com/fahsuanlin/labmanual/wiki/12.-fMRI-inter-subject-correlation-analysis) of fMRI using complex naturalistic stimuli.
+
+- [SMS-InI analysis](https://github.com/fahsuanlin/labmanual/wiki/04.-SMS-InI-analysis)
+
+- [Cortical-depth dependent fMRI analysis](https://github.com/fahsuanlin/labmanual/wiki/05.-layer-fMRI-analysis)
+
+
+## EEG-MRI
+
+- [EEG artifact suppression](https://github.com/fahsuanlin/labmanual/wiki/18.-Suppression-of-artifacts-in-EEG-collected-inside-MRI)
+
+- [EEG evoked potentials and source analysis](https://github.com/fahsuanlin/labmanual/wiki/02.-EEG-analysis-stream)
+
+- 
