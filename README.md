@@ -42,6 +42,9 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 - [EEG evoked potentials and source analysis](https://github.com/fahsuanlin/labmanual/wiki/02.-EEG-analysis-stream)
 
+## MEG 
+
+- [MEG analysis](https://github.com/fahsuanlin/labmanual/wiki/03.-MEG-analysis-stream) for the data collected at Academia Sinica
 
 ## Bruker 7T animal MRI
 
