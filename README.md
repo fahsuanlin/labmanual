@@ -18,7 +18,7 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 - [Diffusion tensor imaging (DTI) analysis](https://github.com/fahsuanlin/labmanual/wiki/17.-DTI-analysis)
 
 ## functional MRI (fMRI)
-
+- [Stimuli presentation](https://github.com/fahsuanlin/labmanual/wiki/16.-Stimuli-presentation-and-response-collection-in-fMRI-by-Psychtoolbox) using Psychtoolbox
 - [Unpack dicom files for analysis](https://github.com/fahsuanlin/labmanual/wiki/09.-unpack-dicom).
   
 - [fMRI preprocessing](https://github.com/fahsuanlin/labmanual/wiki/10.-fMRI-data-preprocessing) includes motion correction, slice timing correction, and spatial smoothing.
@@ -46,13 +46,44 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 - [MEG analysis](https://github.com/fahsuanlin/labmanual/wiki/03.-MEG-analysis-stream) for the data collected at Academia Sinica
 
+## Stereotatic EEG (SEEG)
+- [Data analysis over electrodes](https://github.com/fahsuanlin/labmanual/wiki/07.-SEEG-electrode-analysis)
+
+- [SEEG source analysis: individual](https://github.com/fahsuanlin/labmanual/wiki/06.-SEEG-source-modeling)
+
+- [SEEG source analysis: group](https://github.com/fahsuanlin/labmanual/wiki/08.-SEEG-group-analysis)
+
+## Transcranial magnetic stimulation
+
+- [Image preparation for BrainSight](https://github.com/fahsuanlin/labmanual/wiki/23.-Image-processing-in-BrainSight)
+
+- [Electric field modeling](https://github.com/fahsuanlin/labmanual/wiki/29.-TMS-E-field-modeling)
+
 ## Bruker 7T animal MRI
 
 - [Data collection](https://github.com/fahsuanlin/labmanual/wiki/30.-Bruker-7T-scanning)
 
+## Sample data
+
+- [EEG-MRI: steady-state visual evoked potentials](https://github.com/fahsuanlin/labmanual/wiki/21.-Sample-data:-Steady-state-visual-potential)
+
+- [fMRI: Physiological noise in healthy elderly and Alzheimer's disease patients](https://github.com/fahsuanlin/labmanual/wiki/22.-Sample-data:-physiological-noise-in-Alzheimer's-disease-patients-and-health-controls)
+
+- [fMRI: perspective-taking effects probed by movies](https://github.com/fahsuanlin/labmanual/wiki/25.-Sample-data:-perspective-taking-fMRI-data)
+
+- [EEG: Social perception in young adults and ADHD patients probed by movies](https://github.com/fahsuanlin/labmanual/wiki/31:-Sample-data:-social-interaction-EEG-data)
+
+- [SEEG: music listening](https://github.com/fahsuanlin/labmanual/wiki/32:-Sample-data:-SEEG-recording-during-music-listening)
+
+- [EEG-MRI: music listening](https://github.com/fahsuanlin/labmanual/wiki/39.-Sample-data:-EEG%E2%80%90MRI-during-music-listening)
+
+- [MRI: Human Connectome Project young adults](https://github.com/fahsuanlin/labmanual/wiki/40:-Sample-data:-Human-Connectome-Project-(HCP)-fMRI)
+  
 
 ## MRI coils
 - [Coil housing printing](https://github.com/fahsuanlin/labmanual/wiki/43:-Coil-housing-printing)
+
+- [Coil test rig for selective detuning](https://github.com/fahsuanlin/labmanual/wiki/24.-Coil:-TIM-4G-coil-test-rig)
 
 - [3T receiver coil circuits](https://github.com/fahsuanlin/labmanual/wiki/41.-Coil:-3T-coil-schematics)
 
