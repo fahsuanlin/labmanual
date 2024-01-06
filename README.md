@@ -47,6 +47,17 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 - [MEG analysis](https://github.com/fahsuanlin/labmanual/wiki/03.-MEG-analysis-stream) for the data collected at Academia Sinica
 
 ## Stereotatic EEG (SEEG)
+
+Some pages are from [fhlin_toolbox repo](https://github.com/fahsuanlin/fhlin_toolbox).
+
+- [Register the location of SEEG electrodes using post-implantation MRI; Step I](https://github.com/fahsuanlin/fhlin_toolbox/wiki/SEEG:-register-electrodes-to-MRI)
+
+- [Register the location of SEEG electrodes using post-implantation MRI; Step II](https://github.com/fahsuanlin/fhlin_toolbox/wiki/SEEG:-register-electrodes-to-MRI-(II))
+
+- [Register the location of SEEG electrodes using post-implantation CT](https://github.com/fahsuanlin/fhlin_toolbox/wiki/SEEG:-register-electrodes-to-MRI-with-the-guidance-by-CT)
+
+- [Visualize the registered electrodes](https://github.com/fahsuanlin/fhlin_toolbox/wiki/SEEG:-view-registered-electrodes)
+
 - [Data analysis over electrodes](https://github.com/fahsuanlin/labmanual/wiki/07.-SEEG-electrode-analysis)
 
 - [SEEG source analysis: individual](https://github.com/fahsuanlin/labmanual/wiki/06.-SEEG-source-modeling)
@@ -62,6 +73,25 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 ## Bruker 7T animal MRI
 
 - [Data collection](https://github.com/fahsuanlin/labmanual/wiki/30.-Bruker-7T-scanning)
+
+## Visualization
+
+These are pages from [fhlin_toolbox repo](https://github.com/fahsuanlin/fhlin_toolbox).
+
+- [Show 3D brain model for an individual](https://github.com/fahsuanlin/fhlin_toolbox/wiki/Render-brain)
+
+- [Show 3D brain model and orthogonal slicse for an indvidual](https://github.com/fahsuanlin/fhlin_toolbox/wiki/Render-brain-and-check-brain-coordinates). This includes showing cortical labels created automatically by FreeSurfer (.annot file).
+
+- [Show and create a region-of-interest on a 3D brain model](https://github.com/fahsuanlin/fhlin_toolbox/wiki/Render-brain-and-create-a-region-of-interest).
+
+- [Show 3D brain model with cortical labels](https://github.com/fahsuanlin/fhlin_toolbox/wiki/Render-brain-labels-and-annotation). These labels are either from individual label files (*.label) or a collection of labels in an annotation file (.annot).
+
+- [Show 3D brain model with overlay](https://github.com/fahsuanlin/fhlin_toolbox/wiki/Render-brain-with-an-overlay). The overlay is typically fMRI results, which is a static image here.
+
+- [Show 3D brain model with dynamic overlay](https://github.com/fahsuanlin/fhlin_toolbox/wiki/Render-brain-with-a-dynamic-overlay). The overlay is typically fMRI results, which can be a static image or a collection of images over time.
+
+- [Show or examine the spatial co-registration between structural MRI and fMRI](https://github.com/fahsuanlin/fhlin_toolbox/wiki/Render-or-register-brain-with-a-volume-overlay)
+
 
 ## Sample data
 
