@@ -32,6 +32,10 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 ## EEG-MRI
 
+- [Measurement setup](https://github.com/fahsuanlin/labmanual/wiki/20.-EEG-setup)
+
+- [Data collection cheat sheet](https://github.com/fahsuanlin/labmanual/wiki/33.-EEG-fMRI-acquisition:-MRI-control)
+  
 - [EEG artifact suppression](https://github.com/fahsuanlin/labmanual/wiki/18.-Suppression-of-artifacts-in-EEG-collected-inside-MRI)
 
 - [EEG evoked potentials and source analysis](https://github.com/fahsuanlin/labmanual/wiki/02.-EEG-analysis-stream)
