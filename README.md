@@ -11,4 +11,4 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 ## MRI
 
-For instructions on installing, see [FreeSurfer reconstruction]([Installation.m](https://github.com/fahsuanlin/labmanual/wiki/0A.-FreeSurfer-reconstruction)https://github.com/fahsuanlin/labmanual/wiki/0A.-FreeSurfer-reconstruction).
+For instructions on installing, see [FreeSurfer reconstruction](https://github.com/fahsuanlin/labmanual/wiki/0A.-FreeSurfer-reconstruction).
