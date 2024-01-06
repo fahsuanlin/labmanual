@@ -11,4 +11,10 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 ## MRI
 
-- For instructions on installing, see [FreeSurfer reconstruction](https://github.com/fahsuanlin/labmanual/wiki/0A.-FreeSurfer-reconstruction).
+- [FreeSurfer reconstruction](https://github.com/fahsuanlin/labmanual/wiki/0A.-FreeSurfer-reconstruction) for brain 3D models and anatomical segementation, labels, parameters .
+
+## fMRI
+- [fMRI preprocessing](https://github.com/fahsuanlin/labmanual/wiki/10.-fMRI-data-preprocessing) includes motion correction, slice timing correction, and spatial smoothing
+
+- [Tasked fMRI analysis](https://github.com/fahsuanlin/labmanual/wiki/10.-fMRI-data-preprocessing) uses General Linear Modeling to identify brain regions correlated with a model of stimulatin, task performance, or other explicit (time-domain) models.
+
