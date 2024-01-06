@@ -13,6 +13,8 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 - [FreeSurfer reconstruction](https://github.com/fahsuanlin/labmanual/wiki/0A.-FreeSurfer-reconstruction) for brain 3D models and anatomical segementation, labels, parameters .
 
+- [FreeSurfer quick sheet](https://github.com/fahsuanlin/labmanual/wiki/36.-Quick-sheet-about-Freesurfer-reconstructions)
+
 - [Diffusion tensor imaging (DTI) analysis](https://github.com/fahsuanlin/labmanual/wiki/17.-DTI-analysis)
 
 ## functional MRI (fMRI)
@@ -40,4 +42,17 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 - [EEG evoked potentials and source analysis](https://github.com/fahsuanlin/labmanual/wiki/02.-EEG-analysis-stream)
 
-- 
+
+## Bruker 7T animal MRI
+
+- [Data collection](https://github.com/fahsuanlin/labmanual/wiki/30.-Bruker-7T-scanning)
+
+
+## MRI coils
+- [Coil housing printing](https://github.com/fahsuanlin/labmanual/wiki/43:-Coil-housing-printing)
+
+- [3T receiver coil circuits](https://github.com/fahsuanlin/labmanual/wiki/41.-Coil:-3T-coil-schematics)
+
+- [Impedance matching circuits for 3T and 7T](https://github.com/fahsuanlin/labmanual/wiki/43:-Coil-housing-printing)
+  
+- [3T receiver coil bench testing](https://github.com/fahsuanlin/labmanual/wiki/42:-Coil:-3T-coil-bench-testing)
