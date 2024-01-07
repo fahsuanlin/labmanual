@@ -29,6 +29,8 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 - [SMS-InI analysis](https://github.com/fahsuanlin/labmanual/wiki/04.-SMS-InI-analysis)
 
+- [Co-register between SMS-InI reconstructions and anatomical MRI](https://github.com/fahsuanlin/labmanual/wiki/38.-Registration-between-SMS%E2%80%90InI-and-anatomical-MRI)
+
 - [Cortical-depth dependent fMRI analysis](https://github.com/fahsuanlin/labmanual/wiki/05.-layer-fMRI-analysis)
 
 
