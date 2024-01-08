@@ -1,54 +1,24 @@
 close all; clear all;
 
-target_subject='LAM_AUD_BHC_simple';
+target_subject='s006';
 file_register_source={
-    '../unpack/bold/007/fmcprstc.nii.gz';
-    '../unpack/bold/008/fmcprstc.nii.gz';
-    '../unpack/bold/009/fmcprstc.nii.gz';
-    '../unpack/bold/018/fmcprstc.nii.gz';
-    '../unpack/bold/019/fmcprstc.nii.gz';
-    '../unpack/bold/020/fmcprstc.nii.gz';
-    '../unpack/bold/021/fmcprstc.nii.gz';                                                                                                                  
+    '../resting_data/unpack/bold/005/fmcprstc.nii.gz';
     };
 
 file_regression_source={
-    '../unpack/bold/007/fmcprstc.nii.gz';
-    '../unpack/bold/008/fmcprstc.nii.gz';
-    '../unpack/bold/009/fmcprstc.nii.gz';
-    '../unpack/bold/018/fmcprstc.nii.gz';
-    '../unpack/bold/019/fmcprstc.nii.gz';
-    '../unpack/bold/020/fmcprstc.nii.gz';
-    '../unpack/bold/021/fmcprstc.nii.gz';                                                                                                                  
+    '../resting_data/unpack/bold/005/fmcprstc.nii.gz';
     };
 
 file_register={
-    './bb_register_007.dat';
-    './bb_register_008.dat';
-    './bb_register_009.dat';
-    './bb_register_018.dat';
-    './bb_register_019.dat';
-    './bb_register_020.dat';
-    './bb_register_021.dat';                                                                                                                               
+    './register.dat';
     };
 
 file_aseg={
-	'aparc+aseg_fmcprstc_007.nii';
-        'aparc+aseg_fmcprstc_008.nii';
-        'aparc+aseg_fmcprstc_009.nii';
-        'aparc+aseg_fmcprstc_018.nii';
-        'aparc+aseg_fmcprstc_019.nii';
-        'aparc+aseg_fmcprstc_020.nii';
-        'aparc+aseg_fmcprstc_021.nii';                                                                                                                     
+        'aparc+aseg_fmcprstc_005.nii';
 };
 
 file_output={
-    'regressor_wm_ventrical_007.mat';
-    'regressor_wm_ventrical_008.mat';
-    'regressor_wm_ventrical_009.mat';
-    'regressor_wm_ventrical_018.mat';
-    'regressor_wm_ventrical_019.mat';
-    'regressor_wm_ventrical_020.mat';
-    'regressor_wm_ventrical_021.mat';                                                                                                                      
+    'regressor_wm_ventrical_005.mat';
     };
 %'regressor_wm_ventricle_123016.mat';
 
