@@ -25,6 +25,8 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 - [Tasked fMRI analysis](https://github.com/fahsuanlin/labmanual/wiki/11.-fMRI-analysis) uses General Linear Modeling to identify brain regions correlated with a model of stimulatin, task performance, or other explicit (time-domain) models.
 
+- [Resting-state fMRI analysis](https://github.com/fahsuanlin/labmanual/wiki/46.-Resting%E2%80%90state-fMRI-analysis) using 'seed-based' correlation to identify a network with correlated fMRI signal dynamics with a chosen brain location.
+
 - [Inter-subject correlation analysis](https://github.com/fahsuanlin/labmanual/wiki/12.-fMRI-inter-subject-correlation-analysis) of fMRI using complex naturalistic stimuli.
 
 - [SMS-InI analysis](https://github.com/fahsuanlin/labmanual/wiki/04.-SMS-InI-analysis)
