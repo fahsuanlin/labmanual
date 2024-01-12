@@ -1,18 +1,20 @@
 close all; clear all
 
 %erf
-file_erf='erf_082019.mat';
-flag_auto_remove_comma=0; %remove ' from the electrode name automatically
+file_erf='erf_050719.mat';
+flag_auto_remove_comma=1; %remove ' from the electrode name automatically
 
 %fwd
-file_fwd='seeg_fwd_wb_3dslicer_091019.mat';
+file_fwd='seeg_fwd_wb_091019.mat';
 
 output_stem='seeg_wb_mne_091019';
 
-subject='s047';
+subject='s031';
 target_subject='fsaverage';
 
-SNR=1000;
+SNR=100;
+
+flag_morph=0;
 %%%%%%%%%%%%%%
 
 load(file_erf);
@@ -127,24 +129,26 @@ for trig_idx=1:size(erf_all,2)
         inverse_write_stc(X_hemi,A(hemi_idx).v_idx,min(erf_all(trig_idx).timeVec),t0,fn);
         fprintf('\tsaving [%s]...\n',fn_mne);
         inverse_write_stc(X_hemi_mne,A(hemi_idx).v_idx,min(erf_all(trig_idx).timeVec),t0,fn_mne);
+        
     end;
 
-    %morphing...
-    for hemi_idx=1:2
-        switch hemi_idx
-            case 1
-                hemi='lh';
-            case 2
-                hemi='rh';
+    if(flag_morph)
+        %morphing...
+        for hemi_idx=1:2
+            switch hemi_idx
+                case 1
+                    hemi='lh';
+                case 2
+                    hemi='rh';
+            end;
+            fn_out=sprintf('%s_2_%s_%s_%s-%s.stc',subject,target_subject,output_stem,erf_all(trig_idx).trig_str,hemi);
+            cmd=sprintf('!mne_make_movie --subject %s --stcin %s --morph %s --stc %s --%s --smooth 5', subject, fn, target_subject, fn_out, hemi);
+            eval(cmd);
+            fn_mne_out=sprintf('%s_2_%s_%s_%s_mne-%s.stc',subject,target_subject,output_stem,erf_all(trig_idx).trig_str,hemi);
+            cmd=sprintf('!mne_make_movie --subject %s --stcin %s --morph %s --stc %s --%s --smooth 5', subject, fn_mne, target_subject, fn_mne_out, hemi);
+            eval(cmd);
         end;
-        fn_out=sprintf('%s_2_%s_%s_%s-%s.stc',subject,target_subject,output_stem,erf_all(trig_idx).trig_str,hemi);
-        cmd=sprintf('!mne_make_movie --subject %s --stcin %s --morph %s --stc %s --%s --smooth 5', subject, fn, target_subject, fn_out, hemi);
-        eval(cmd);
-        fn_mne_out=sprintf('%s_2_%s_%s_%s_mne-%s.stc',subject,target_subject,output_stem,erf_all(trig_idx).trig_str,hemi);
-        cmd=sprintf('!mne_make_movie --subject %s --stcin %s --morph %s --stc %s --%s --smooth 5', subject, fn_mne, target_subject, fn_mne_out, hemi);
-        eval(cmd);
     end;
-    
     fn=sprintf('%s_%s-vol.stc',output_stem,erf_all(trig_idx).trig_str);
     fprintf('\tsaving [%s]...\n',fn);
     inverse_write_stc(X_dspm,[0:size(X_dspm,1)-1],min(erf_all(trig_idx).timeVec),t0,fn);
