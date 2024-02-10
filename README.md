@@ -74,6 +74,8 @@ Some pages are from [fhlin_toolbox repo](https://github.com/fahsuanlin/fhlin_too
 
 - [Electric field modeling](https://github.com/fahsuanlin/labmanual/wiki/29.-TMS-E-field-modeling)
 
+- [Electric field modeling with interactive TMS coil placement](https://github.com/fahsuanlin/labmanual/wiki/47.-TMS-E%E2%80%90field-modeling-with-interactive-TMS-coil-placement)
+
 ## Bruker 7T animal MRI
 
 - [Data collection](https://github.com/fahsuanlin/labmanual/wiki/30.-Bruker-7T-scanning)
