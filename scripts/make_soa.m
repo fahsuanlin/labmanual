@@ -31,7 +31,7 @@ for f_idx=1:length(soa_var)
     fp=fopen(file_para,'w');
     
     for idx=1:length(trigger.time)
-        fprintf(fp,'%2.2f\t%d\n',trigger.time(idx),trigger.event{idx});
+        fprintf(fp,'%2.2f\t%s\n',trigger.time(idx),trigger.event{idx});
     end;
     
     fclose(fp);
