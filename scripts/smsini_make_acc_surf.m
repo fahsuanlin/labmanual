@@ -12,17 +12,17 @@ acc_template={
 };
 
 file_register={
-'register_01.dat';
-'register_02.dat';
+'bb_register_blipdown_epi.dat';
+'bb_register_blipup_epi.dat';
 };
 
-TR=0.1; %second
+TR=.1; %second
 
 flag_morph=1;
 flag_native=1;
 flag_nii=1;
 
-subject='060820';
+subject='011624';
 target_subject='fsaverage';
 output_stem='smsini';
 
