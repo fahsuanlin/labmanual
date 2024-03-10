@@ -12,8 +12,8 @@ acc_template={
 };
 
 file_register={
-'bb_register_blipdown_epi.dat';
-'bb_register_blipup_epi.dat';
+'bb_register_blipdown_epi_5.dat';
+'bb_register_blipup_epi_5.dat';
 };
 
 TR=.1; %second
