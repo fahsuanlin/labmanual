@@ -61,7 +61,7 @@ for d_idx=1:length(file_in)
             inverse_write_stc(repmat(stc(:),[1 5]),v,a,b,'tmp-rh.stc');
 		    fn_out=sprintf('%s_2_%s_%s',source_subject,target_subject,file_output{idx});
 %        	cmd=sprintf('!mne_make_movie --subject %s --stcin %s --morph %s --stc %s --%s --smooth 5', source_subject, fn_in, target_subject, fn_out, 'rh');
-         	cmd=sprintf('!mne_make_movie --subject %s --stcin tmp --morph %s --stc %s --%s --smooth 5', source_subject, target_subject, fn_out, 'lh');
+         	cmd=sprintf('!mne_make_movie --subject %s --stcin tmp --morph %s --stc %s --%s --smooth 5', source_subject, target_subject, fn_out, 'rh');
         	eval(cmd);
 
 
