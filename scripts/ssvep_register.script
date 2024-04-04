@@ -1,0 +1,3 @@
+fslregister --s 180330_SYH --mov ./mb_run_1_ref.mgh --reg ./register_01.dat --maxangle 70 --initxfm
+fslregister --s 180330_SYH --mov ./mb_run_2_ref.mgh --reg ./register_02.dat --maxangle 70 --initxfm
+fslregister --s 180330_SYH --mov ./mb_run_3_ref.mgh --reg ./register_03.dat --maxangle 70 --initxfm
