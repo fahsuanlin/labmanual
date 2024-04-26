@@ -10,7 +10,7 @@ for i=1:size(erp_avg,1)
      if(isempty(tmp))
         tmp=erp_avg{i,erp_condition_index}.erp;
     else
-        tmp=tmp+erp{i,erp_condition_index}.erp;
+        tmp=tmp+erp_avg{i,erp_condition_index}.erp;
     end;
 end;
 vep=tmp./size(erp_avg,1);
