@@ -44,6 +44,8 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
   
 - [EEG artifact suppression](https://github.com/fahsuanlin/labmanual/wiki/18.-Suppression-of-artifacts-in-EEG-collected-inside-MRI)
 
+- [Processing of sample data of steady-state visual evoked potentials](https://github.com/fahsuanlin/labmanual/wiki/37.-EEG-MRI-analysis)
+ 
 - [EEG evoked potentials and source analysis](https://github.com/fahsuanlin/labmanual/wiki/02.-EEG-analysis-stream)
 
 ## MEG 
