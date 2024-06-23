@@ -141,6 +141,14 @@ if(flag_nav)
 end;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if(flag_nav) %prepare for rendering in tuning
+    global etc_render_fsbrain
+
+    object_UserData_buffer=etc_render_fsbrain.object.UserData;
+end;
+
+%%%%%%%%%%% tuning loop, if any, starts here. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %rotation; 30 degrees
 [tms_coil_xfm_moved_tuned]=etc_tms_target_xfm_tune(target_coord, bem_obj(head_surf_idx), tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2), tms_coil_xfm_moved, 4, 30);
 
@@ -148,7 +156,10 @@ end;
 strcoil = etc_tms_target_xfm_apply(strcoil, tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2), tms_coil_xfm_moved, tms_coil_xfm_moved_tuned);
 %%% this is updating navigation window objects for subsequent rendering, if any
 if(flag_nav)
-    results = etc_tms_target_xfm_apply_nav(etc_render_fsbrain.app_tms_nav, tms_coil_xfm_moved_tuned(1:3,4).*1e3, -tms_coil_xfm_moved_tuned(1:3,3), tms_coil_xfm_moved_tuned(1:3,2));
+        %restore object_xfm
+        etc_render_fsbrain.object.UserData=object_UserData_buffer;
+
+        results = etc_tms_target_xfm_apply_nav(etc_render_fsbrain.app_tms_nav, tms_coil_xfm_moved_tuned(1:3,4).*1e3, -tms_coil_xfm_moved_tuned(1:3,3), tms_coil_xfm_moved_tuned(1:3,2));
 end;
 
 
@@ -176,4 +187,4 @@ if(flag_nav)
     etc_render_fsbrain_handle('draw_pointer');
 end;
 
-save tms_script_test0.mat efield1 efield2
+save tms_script_test.mat efield1 efield2
