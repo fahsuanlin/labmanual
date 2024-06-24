@@ -106,7 +106,7 @@ end;
 
 
 %move strcoil
-strcoil = etc_tms_target_xfm_apply(strcoil, tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2), tms_coil_xfm, tms_coil_xfm_moved);
+[strcoil, strcoil_xfm] = etc_tms_target_xfm_apply(strcoil, tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2), tms_coil_xfm, tms_coil_xfm_moved);
 %%% this is updating navigation window objects for subsequent rendering, if any
 if(flag_nav)
     results = etc_tms_target_xfm_apply_nav(etc_render_fsbrain.app_tms_nav, tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2));
@@ -148,7 +148,7 @@ end;
 [tms_coil_xfm_moved_tuned]=etc_tms_target_xfm_tune(target_coord, bem_obj(head_surf_idx), tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2), tms_coil_xfm_moved, 4, 30);
 
 %move strcoil
-strcoil = etc_tms_target_xfm_apply(strcoil, tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2), tms_coil_xfm_moved, tms_coil_xfm_moved_tuned);
+[strcoil, strcoil_xfm]= etc_tms_target_xfm_apply(strcoil, tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2), strcoil_xfm, tms_coil_xfm_moved_tuned);
 %%% this is updating navigation window objects for subsequent rendering, if any
 if(flag_nav)
         results = etc_tms_target_xfm_apply_nav(etc_render_fsbrain.app_tms_nav, tms_coil_xfm_moved_tuned(1:3,4).*1e3, -tms_coil_xfm_moved_tuned(1:3,3), tms_coil_xfm_moved_tuned(1:3,2));
