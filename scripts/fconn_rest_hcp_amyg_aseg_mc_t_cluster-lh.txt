@@ -1,0 +1,42 @@
+# Cluster Growing Summary (mri_surfcluster)
+# $Id: mri_surfcluster.c,v 1.60 2016/11/01 19:49:22 greve Exp $
+# $Id$
+# CreationTime 2024/09/13-03:06:48-GMT
+# cmdline mri_surfcluster --in tmp.mgh --hemi lh --surf orig --sum /Users/fhlin/workspace/hcp/scripts/fconn_rest_hcp_amyg_aseg_mc_t_cluster-lh.txt --subject fsaverage --thmin 50.000000 --thmax inf --sign pos --no-adjust 
+# cwd /Users/fhlin/workspace/hcp/scripts
+# sysname  Darwin
+# hostname Fa-Hsuans-MacBook-Pro-3.local
+# machine  x86_64
+# FixVertexAreaFlag 1
+# FixSurfClusterArea 1
+# 
+# Input      tmp.mgh
+# Frame Number      0
+# srcsubj fsaverage
+# hemi lh
+# surface orig
+# group_avg_surface_area 74969.5
+# group_avg_vtxarea_loaded 1
+# SUBJECTS_DIR /Users/fhlin/workspace/seeg/subjects/
+# SearchSpace_mm2 74969
+# SearchSpace_vtx 163842
+# Bonferroni 0
+# Minimum Threshold 50
+# Maximum Threshold inf
+# Threshold Sign    pos
+# AdjustThreshWhenOneTail 0
+# Area Threshold    0 mm^2
+# Overall max 224.404 at vertex 22215
+# Overall min -64.7128 at vertex 37985
+# NClusters          8
+# FixMNI = 1
+# 
+# ClusterNo  Max   VtxMax   Size(mm^2)  TalX   TalY   TalZ    NVtxs    WghtVtx
+   1      224.4041   22215  13793.41    -23.6  -18.1  -24.3  29357  2520474.50
+   2       83.4646   44572    791.90    -43.5  -67.9   30.0   1673   103832.80
+   3       65.1160   34673    638.48    -41.5  -23.9   58.5   1671    95656.88
+   4       63.7235   50405    575.26     -5.2  -23.9   62.8   1411    78644.40
+   5       61.3156  155141    300.54    -60.3  -16.1   -0.5    761    41610.04
+   6       54.5118  129275     71.42    -33.6   19.6   43.3    131     6844.16
+   7       50.5724   30417     52.40    -54.8  -13.3   36.6    123     6184.36
+   8       51.6339   10247     25.20    -35.0  -17.5   57.6     58     2947.25
