@@ -1,0 +1,36 @@
+# Cluster Growing Summary (mri_volcluster)
+# $Id: mri_volcluster.c,v 1.49 2016/11/01 19:51:04 greve Exp $
+# cwd /Users/fhlin/workspace/seeg/s036/analysis
+# cmdline mri_volcluster --in tmp_vol.mgh --sum /Users/fhlin/workspace/seeg/s036/analysis/vol_cluster.txt --thmin 50.000000 --thmax inf --sign pos --no-adjust --minsizevox 27 
+# sysname  Darwin
+# hostname Fa-Hsuans-MacBook-Pro-3.local
+# machine  x86_64
+# user     fhlin
+# Input Volume:      tmp_vol.mgh
+# Frame Number:      0
+# VoxSize_mm3 1
+# SearchSpace_mm3 1.67772e+07
+# SearchSpace_vox 16777216
+# Minimum Threshold: 50
+# Bonferroni 0
+# Maximum Threshold: inf
+# Threshold Sign:    pos
+# AdjustThreshWhenOneTail 0
+# Size Threshold:    27 mm^3
+# Size Threshold:    27 voxels
+# Voxel Size:        1 mm^3
+# Registration:      None : Tal Coords invalid
+# AllowDiag:         0
+# NClusters          9
+# 
+# Reporting Coordinates in Voxel Indices
+# Cluster   Size(n)   Size(mm^3)     VoxX    VoxY    VoxZ             Max
+  1         3977        3977.0      87.00  136.00  101.00         200.38564
+  2          733         733.0      93.00  153.00   98.00         171.90120
+  3          570         570.0     103.00  143.00   99.00          82.38575
+  4          218         218.0      76.00  171.00   92.00          71.18077
+  5          210         210.0      80.00  147.00   92.00          90.48558
+  6          123         123.0      76.00  131.00  113.00          78.37115
+  7           65          65.0      83.00  125.00  122.00          61.98298
+  8           36          36.0      85.00  137.00  129.00          58.85308
+  9           27          27.0      63.00  127.00  104.00          57.12851
