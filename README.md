@@ -62,7 +62,9 @@ Some pages are from [fhlin_toolbox repo](https://github.com/fahsuanlin/fhlin_too
 
 - [Register the location of SEEG electrodes using post-implantation CT](https://github.com/fahsuanlin/fhlin_toolbox/wiki/SEEG:-register-electrodes-to-MRI-with-the-guidance-by-CT)
 
-- [Visualize the registered electrodes](https://github.com/fahsuanlin/fhlin_toolbox/wiki/SEEG:-view-registered-electrodes)
+- [Visualize the registered electrodes I](https://github.com/fahsuanlin/fhlin_toolbox/wiki/SEEG:-view-registered-electrodes)
+  
+- [Visualize the registered electrodes II](https://github.com/fahsuanlin/labmanual/wiki/19.-Rendering-scripts)
 
 - [Data analysis over electrodes](https://github.com/fahsuanlin/labmanual/wiki/07.-SEEG-electrode-analysis)
 
