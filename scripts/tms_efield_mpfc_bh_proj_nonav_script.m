@@ -65,7 +65,7 @@ tms_coil_name='MagVenture_MRiB91';
 
 output_stem='mri_b91_mpfc_bh_proj_efield';
 
-target_coord=[0 62 4];
+target_coord=[3.9 53 39.5]; %MNI [0 62 4];
 
 flag_nav=0; %open navigation window
 bem_prep_status=0;
@@ -227,13 +227,11 @@ for subj_idx=1:length(subject)
     efield.tms_coil_name=tms_coil_name;
     
     %append TMS target coord.
-    efield.target_coord=surf_target_coord;
+    efield.target_coord=target_coord;
 
     %append BEM
     efield.bem_obj=bem_obj;
     efield.scalp_bem_index=head_surf_idx;
-
-
     if(flag_nav)
         %the following is for rendering E-field
         etc_render_fsbrain.overlay_vertex=efield1.vertices;
