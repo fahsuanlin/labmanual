@@ -1,6 +1,6 @@
 close all; clear all;
 
-target_subject='s006';
+target_subject='s012';
 file_register_source={
     '../resting_data/unpack/bold/005/fmcprstc.nii.gz';
     };
@@ -20,7 +20,6 @@ file_aseg={
 file_output={
     'regressor_wm_ventrical_005.mat';
     };
-%'regressor_wm_ventricle_123016.mat';
 
 
 for f_idx=1:length(file_regression_source)

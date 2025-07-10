@@ -5,32 +5,102 @@ root_path='/Users/fhlin/workspace/eegmri_memory';
 
 freesurfer_home=getenv('FREESURFER_HOME');
 
-file_hippo_aseg={
-    'aseg.mgz';
-    };
-
 %setenv('SUBJECTS_DIR','/space_lin1/hcp/subjects');
 setenv('SUBJECTS_DIR','/Users/fhlin/workspace/eegmri_memory/subjects');
 
 subjects_dir=getenv('SUBJECTS_DIR');
 
-fstem={
-    'fmcprstc';
+pstem={
+    '../resting_data/unpack/bold/005';
     };
 
-fmri_vol_data={
-    '005';
+fstem={
+    'sfmcprstc';
     };
+
+file_label={
+    'lh.entorhinal_exvivo.label','rh.entorhinal_exvivo.label';
+    };
+
 
 output_fstem={
-    'native_hippo_regressors_rest';
-    }
+    'native_ent_regressors_rest';
+    };
 
 error_subject={};
 
 subject={
     's012';
     };
+
+
+
+roi_lh=[];
+roi_rh=[];
+
+
+
+
+for f_idx=1:length(subject)
+    fprintf('[%s]...[%04d||%04d]...\r',subject{f_idx},f_idx,length(subject));
+
+    file_output=sprintf('%s.mat',output_fstem{f_idx});
+
+    for stc_idx=1:length(fstem)
+
+
+        for l_idx=1:length(file_label(f_idx,:))
+            [ll]=inverse_read_label(sprintf('%s/subjects/fsaverage/label/%s',root_path, file_label{f_idx,l_idx}));
+            if(findstr(file_label{f_idx,l_idx},'lh'))
+                fprintf('LH label [%s]...\n',file_label{f_idx,l_idx});
+                roi_lh=union(roi_lh,ll(:));
+            else
+                fprintf('RH label [%s]...\n',file_label{f_idx,l_idx});
+                roi_rh=union(roi_rh,ll(:));
+            end;
+        end;
+
+        regressor_entorhinal_full=[];
+        regressor_entorhinal=[];
+
+        for hemi=1:2
+            switch hemi
+                case 1
+                    hemi_str='lh';
+                case 2
+                    hemi_str='rh';
+            end;
+            fn=sprintf('%s/%s_2_fsaverage_%s-%s.stc',pstem{stc_idx},subject{f_idx},fstem{stc_idx},hemi_str);
+            if(exist(fn,'file'))
+                fprintf('loading [%s]...\n',fn);
+                [stc,v]=inverse_read_stc(fn);
+
+                if(hemi==1) roi_now=roi_lh; else roi_now=roi_rh; end;
+
+                [dummy,vv]=intersect(v,roi_now);
+
+                regressor_entorhinal_full=cat(1, regressor_entorhinal_full, stc(vv,:));
+
+            end;
+        end;
+
+
+        regressor_entorhinal=squeeze(mean(regressor_entorhinal_full,1));
+        if(~isempty(regressor_entorhinal))
+            save(file_output,'regressor_entorhinal_full','regressor_entorhinal');
+        end;
+
+    end;
+end;
+fprintf('\n');
+%end;
+
+
+
+
+return;
+
+
 
 for stem_idx=1:length(fstem)
     for f_idx=1:length(subject)
