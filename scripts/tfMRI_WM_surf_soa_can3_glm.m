@@ -10,7 +10,7 @@ file_stc={
     };
 
 
-root_path='/Users/fhlin/workspace/hcp';
+%root_path='/Users/fhlin/workspace/hcp';
 root_path='/space_lin1/hcp';
 
 
@@ -89,7 +89,6 @@ for d_idx=1:length(d)
     subject{d_idx}=num2str(d(d_idx));
 end;
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
@@ -100,32 +99,32 @@ for subj_idx=1:length(subject)
 
     flag_file_error=0;
     for f_idx=1:length(file_stc)
-    	stc_now=[];
-    	for hemi_idx=1:2
-    		switch hemi_idx
-        		case 1
-        			hemi_str='lh';
-        		case 2
-        			hemi_str='rh';
-    		end;
+        stc_now=[];
+        for hemi_idx=1:2
+            switch hemi_idx
+                case 1
+                    hemi_str='lh';
+                case 2
+                    hemi_str='rh';
+            end;
             fn=sprintf('%s/%s/analysis/%s_2_fsaverage_%s-%s.stc',root_path,subject{subj_idx},subject{subj_idx},file_stc{f_idx},hemi_str);
             if(exist(fn))
-    			fprintf('loading [%s]....\n',fn);
-    			[tmp,v{hemi_idx}]=inverse_read_stc(fn);
-    			stc_now=cat(1,stc_now,tmp);
+                fprintf('loading [%s]....\n',fn);
+                [tmp,v{hemi_idx}]=inverse_read_stc(fn);
+                stc_now=cat(1,stc_now,tmp);
 
                 timepoints(f_idx)=size(tmp,2);
-    		else
-    			flag_file_error=1;
-    			break;
-    		end;
-    		if(hemi_idx==1)
-    			v_lh=v{hemi_idx};
-    		else
-    			v_rh=v{hemi_idx};
-    		end;
-    	end;
-    	stc=cat(2,stc,stc_now);
+            else
+                flag_file_error=1;
+                break;
+            end;
+            if(hemi_idx==1)
+                v_lh=v{hemi_idx};
+            else
+                v_rh=v{hemi_idx};
+            end;
+        end;
+        stc=cat(2,stc,stc_now);
     end;
 
     if(~flag_file_error)
@@ -252,16 +251,16 @@ for subj_idx=1:length(subject)
         if(~isempty(file_mc_regressor))
             for run_idx=1:n_run
                 file_regressor=sprintf('%s/%s/Preproccesed/%s',root_path,subject{subj_idx},file_mc_regressor{run_idx});
-        	    if(exist(file_regressor))
-            		load(file_regressor);
-        	    	mcr=mc_regressor{run_idx};
-                	mcr(end,:)=[];
+                if(exist(file_regressor))
+                    load(file_regressor);
+                    mcr=mc_regressor{run_idx};
+                    mcr(end,:)=[];
                     %mcr([exclude_time(:); exclude_time(end)+1],:)=[]; %one more dummy because stc files have one-less time points
                     %mcr([exclude_time(:)],:)=[]; %one more dummy because stc files have one-less time points
 
-                	confound(1+cumsum_timepoints(run_idx):cumsum_timepoints(run_idx+1),n_confound:n_confound+5)=fmri_scale(mcr,1,0);
-                	n_confound=n_confound+6;
-        	    end;
+                    confound(1+cumsum_timepoints(run_idx):cumsum_timepoints(run_idx+1),n_confound:n_confound+5)=fmri_scale(mcr,1,0);
+                    n_confound=n_confound+6;
+                end;
             end;
         end;
 
@@ -415,62 +414,65 @@ for subj_idx=1:length(subject)
             cc_hdr(ii)=hypothesis{h}.cvec;
 
 
-            cc=zeros(size(w_beta,1),1);
-            cc_tmp=kron(cc_hdr(:),ones(size(HDR0,2),1));
-            cc(1:length(cc_tmp(:)))=cc_tmp(:);
-            t_stat=cc'*w_beta./sqrt(w_error_sig2.*(cc'*inv(w_contrast'*w_contrast)*cc));
-            effect=cc'*w_beta;
+            %cc_tmp=kron(cc_hdr(:),ones(size(HDR0,2),1));
+            cc_tmp=kron(cc_hdr(:),eye(size(HDR0,2)))';
+            for cc_idx=1:size(cc_tmp,1)
+                cc=zeros(size(w_beta,1),1);
+                cc(1:size(cc_tmp,2))=cc_tmp(cc_idx,:);
+                t_stat(cc_idx,:)=cc'*w_beta./sqrt(w_error_sig2.*(cc'*inv(w_contrast'*w_contrast)*cc));
+                effect(cc_idx,:)=cc'*w_beta;
+            end;
 
-            %effect from F-test (more than 1 HRF basis)
-            R=zeros(size(HDR,2),size(w_beta,1));
-            %R=zeros(1,size(w_beta,1));
-            cc=zeros(1,size(scm,2));
-            
-            cc(hypothesis{h}.rv)=hypothesis{h}.cvec;
-
-            R(:,1:size(contrast_hdr,2))=kron(cc,eye(size(HDR,2)));
-            %R(:,1:size(contrast_hdr,2))=kron(cc,ones([1  size(HDR,2)]));
-            
-
-%             n_basis=size(HDR,2);
-%             R=[];size(contrast_hdr,2)
-%             for rv_idx=1:length(hypothesis{h}.rv)
-%                 rtmp=zeros(1,size(w_beta,1));
+%             %effect from F-test (more than 1 HRF basis)
+%             R=zeros(size(HDR,2),size(w_beta,1));
+%             %R=zeros(1,size(w_beta,1));
+%             cc=zeros(1,size(scm,2));
 % 
-%                 rtmp(hypothesis{h}.rv(rv_idx)*n_basis-n_basis+1:hypothesis{h}.rv(rv_idx)*n_basis)=hypothesis{h}.cvec(rv_idx);
-%                 R=cat(1,R,rtmp);
-%             end;
-            F=sum(((R*w_beta)'*inv(R*inv(w_contrast'*w_contrast)*R')).'.*(R*w_beta),1)./size(R,1)./w_error_sig2;
-            %effect=sum(((R*w_beta)'*inv(R*inv(w_contrast'*w_contrast)*R')).'.*(R*w_beta),1);
-	    F_effect=(R*w_beta)';
+%             cc(hypothesis{h}.rv)=hypothesis{h}.cvec;
+% 
+%             R(:,1:size(contrast_hdr,2))=kron(cc,eye(size(HDR,2)));
+%             %R(:,1:size(contrast_hdr,2))=kron(cc,ones([1  size(HDR,2)]));
+% 
+% 
+%             %             n_basis=size(HDR,2);
+%             %             R=[];size(contrast_hdr,2)
+%             %             for rv_idx=1:length(hypothesis{h}.rv)
+%             %                 rtmp=zeros(1,size(w_beta,1));
+%             %
+%             %                 rtmp(hypothesis{h}.rv(rv_idx)*n_basis-n_basis+1:hypothesis{h}.rv(rv_idx)*n_basis)=hypothesis{h}.cvec(rv_idx);
+%             %                 R=cat(1,R,rtmp);
+%             %             end;
+%             F=sum(((R*w_beta)'*inv(R*inv(w_contrast'*w_contrast)*R')).'.*(R*w_beta),1)./size(R,1)./w_error_sig2;
+%             %effect=sum(((R*w_beta)'*inv(R*inv(w_contrast'*w_contrast)*R')).'.*(R*w_beta),1);
+%     	    F_effect=(R*w_beta)';
+% 
+%             fprintf('\tarchiving results...\n');
+%             %t_stat=reshape(t_stat,[nii_sz(1) nii_sz(2) nii_sz(3)]);
+%             %etc_save_nii(t_stat,nii,sprintf('%s_tstat.nii',output_stem));
+% 
+%             %beta=reshape(beta,[nii_sz(1) nii_sz(2) nii_sz(3) size(beta,1)]);
+%             %etc_save_nii(beta,nii,sprintf('%s_beta.nii',output_stem));
 
-            fprintf('\tarchiving results...\n');
-            %t_stat=reshape(t_stat,[nii_sz(1) nii_sz(2) nii_sz(3)]);
-            %etc_save_nii(t_stat,nii,sprintf('%s_tstat.nii',output_stem));
-
-            %beta=reshape(beta,[nii_sz(1) nii_sz(2) nii_sz(3) size(beta,1)]);
-            %etc_save_nii(beta,nii,sprintf('%s_beta.nii',output_stem));
 
 
+            fn=sprintf('%s/%s/analysis/%s_h%02d_tstat-lh.stc',root_path,subject{subj_idx},output_stem,h);
+            inverse_write_stc(t_stat(:,1:length(v_lh))',v_lh,0,TR.*1e3,fn);
+            fn=sprintf('%s/%s/analysis/%s_h%02d_tstat-rh.stc',root_path,subject{subj_idx},output_stem,h);
+            inverse_write_stc(t_stat(:,length(v_lh)+1:end)',v_rh,0,TR.*1e3,fn);
 
-            %fn=sprintf('%s/%s/analysis/%s_h%02d_tstat-lh.stc',root_path,subject{subj_idx},output_stem,h);
-            %inverse_write_stc(repmat(t_stat(1:length(v_lh))',[1 5]),v_lh,0,TR.*1e3,fn);
-            %fn=sprintf('%s/%s/analysis/%s_h%02d_tstat-rh.stc',root_path,subject{subj_idx},output_stem,h);
-            %inverse_write_stc(repmat(t_stat(length(v_lh)+1:end)',[1 5]),v_rh,0,TR.*1e3,fn);
-
-            %fn=sprintf('%s/%s/analysis/%s_h%02d_effect-lh.stc',root_path,subject{subj_idx},output_stem,h);
-            %inverse_write_stc(effect(:,1:length(v_lh))',v_lh,0,TR.*1e3,fn);
-            %fn=sprintf('%s/%s/analysis/%s_h%02d_effect-rh.stc',root_path,subject{subj_idx},output_stem,h);
-            %inverse_write_stc(effect(:,length(v_lh)+1:end)',v_rh,0,TR.*1e3,fn);
-            fn=sprintf('%s/%s/analysis/%s_h%02d_F_effect-lh.stc',root_path,subject{subj_idx},output_stem,h);
-            inverse_write_stc(F_effect(1:length(v_lh),:),v_lh,0,TR.*1e3,fn);
-            fn=sprintf('%s/%s/analysis/%s_h%02d_F_effect-rh.stc',root_path,subject{subj_idx},output_stem,h);
-            inverse_write_stc(F_effect(length(v_lh)+1:end,:),v_rh,0,TR.*1e3,fn);
-
-            fn=sprintf('%s/%s/analysis/%s_h%02d_F-lh.stc',root_path,subject{subj_idx},output_stem,h);
-            inverse_write_stc(F(:,1:length(v_lh))',v_lh,0,TR.*1e3,fn);
-            fn=sprintf('%s/%s/analysis/%s_h%02d_F-rh.stc',root_path,subject{subj_idx},output_stem,h);
-            inverse_write_stc(F(:,length(v_lh)+1:end)',v_rh,0,TR.*1e3,fn);
+            fn=sprintf('%s/%s/analysis/%s_h%02d_effect-lh.stc',root_path,subject{subj_idx},output_stem,h);
+            inverse_write_stc(effect(:,1:length(v_lh))',v_lh,0,TR.*1e3,fn);
+            fn=sprintf('%s/%s/analysis/%s_h%02d_effect-rh.stc',root_path,subject{subj_idx},output_stem,h);
+            inverse_write_stc(effect(:,length(v_lh)+1:end)',v_rh,0,TR.*1e3,fn);
+            %             fn=sprintf('%s/%s/analysis/%s_h%02d_F_effect-lh.stc',root_path,subject{subj_idx},output_stem,h);
+            %             inverse_write_stc(F_effect(1:length(v_lh),:),v_lh,0,TR.*1e3,fn);
+            %             fn=sprintf('%s/%s/analysis/%s_h%02d_F_effect-rh.stc',root_path,subject{subj_idx},output_stem,h);
+            %             inverse_write_stc(F_effect(length(v_lh)+1:end,:),v_rh,0,TR.*1e3,fn);
+            %
+            %             fn=sprintf('%s/%s/analysis/%s_h%02d_F-lh.stc',root_path,subject{subj_idx},output_stem,h);
+            %             inverse_write_stc(F(:,1:length(v_lh))',v_lh,0,TR.*1e3,fn);
+            %             fn=sprintf('%s/%s/analysis/%s_h%02d_F-rh.stc',root_path,subject{subj_idx},output_stem,h);
+            %             inverse_write_stc(F(:,length(v_lh)+1:end)',v_rh,0,TR.*1e3,fn);
 
             fn=sprintf('%s/%s/analysis/%s_h%02d_beta-lh.stc',root_path,subject{subj_idx},output_stem,h);
             inverse_write_stc(w_beta(1:size(contrast_hdr,2),1:length(v_lh))',v_lh,0,TR.*1e3,fn);
