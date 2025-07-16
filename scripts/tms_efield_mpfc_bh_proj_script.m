@@ -351,12 +351,13 @@ rotation_deg=[0:15:360-1];
 for rot_idx=1:length(rotation_deg)
     [tms_coil_xfm_moved_tuned]=etc_tms_target_xfm_tune(target_coord, bem_obj(head_surf_idx), tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2), tms_coil_xfm_moved, 4, rotation_deg(rot_idx));
 
-    %move strcoil
-    [strcoil, strcoil_xfm] = etc_tms_target_xfm_apply(strcoil, tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2), strcoil_xfm, tms_coil_xfm_moved_tuned);
-    %%% this is updating navigation window objects for subsequent rendering, if any
-    if(flag_nav)
-        results = etc_tms_target_xfm_apply_nav(etc_render_fsbrain.app_tms_nav, tms_coil_xfm_moved_tuned(1:3,4).*1e3, -tms_coil_xfm_moved_tuned(1:3,3), tms_coil_xfm_moved_tuned(1:3,2));
-    end;
+%     %move strcoil (no need. stcoil is updated automatically by the tuning
+%     above)
+%     [strcoil, strcoil_xfm] = etc_tms_target_xfm_apply(strcoil, tms_coil_xfm_moved(1:3,4).*1e3, -tms_coil_xfm_moved(1:3,3), tms_coil_xfm_moved(1:3,2), strcoil_xfm, tms_coil_xfm_moved_tuned);
+%     %%% this is updating navigation window objects for subsequent rendering, if any
+%     if(flag_nav)
+%         results = etc_tms_target_xfm_apply_nav(etc_render_fsbrain.app_tms_nav, tms_coil_xfm_moved_tuned(1:3,4).*1e3, -tms_coil_xfm_moved_tuned(1:3,3), tms_coil_xfm_moved_tuned(1:3,2));
+%     end;
 
 
     %calculate the e-field
