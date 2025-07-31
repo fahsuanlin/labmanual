@@ -293,7 +293,7 @@ for rot_idx=1:length(rotation_deg)
     %calculate the e-field
     coords=vertex_coords./1e3;
 
-    [status, efield1]=etc_tms_efield_surf(bem_t, bem_P, normals, Center, Area, Indicator, name, tissue, cond, enclosingTissueIdx, condin, condout, contrast, tneighbor, RnumberE, ineighborE, EC, coords,'tissue_to_plot','GM_LH');
+    [status, efield1]=etc_tms_efield_surf(bem_t, bem_P, normals, Center, Area, Indicator, name, tissue, cond, enclosingTissueIdx, condin, condout, contrast, tneighbor, RnumberE, ineighborE, EC, coords,'tissue_to_plot',{'GM_LH','GM_RH'});
     
     efield_rot{rot_idx}=efield1;
 
