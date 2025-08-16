@@ -3,10 +3,10 @@ close all; clear all;
 subject='s012';
 hemi={'lh','rh'};
 file_efield={
-    'mri_b91_mpfc_atlas_bh_proj_efield.mat';
-    'mri_b91_mpfc_fc1_bh_proj_efield.mat';
-    'mri_b91_mpfc_fc2_bh_proj_efield.mat';
-    };
+    'mri_b91_mpfc_fc1_bh_proj_efield_test2.mat';
+    'mri_b91_mpfc_fc2_bh_proj_efield_test2.mat';
+    'mri_b91_mpfc_atlas_bh_proj_efield_test2.mat';
+};
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for file_idx=1:length(file_efield)
@@ -32,7 +32,7 @@ for file_idx=1:length(file_efield)
     etc_render_fsbrain_handle('draw_pointer');
 
     [dummy,fstem]=fileparts(file_efield{file_idx});
-    fn=sprintf(sprintf('%s_anat.nii',fstem))
+    fn=sprintf(sprintf('%s_anat.nii',fstem));
     MRIwrite(etc_render_fsbrain.overlay_vol,fn);
 
     if(exist('efield_rot','var'))
@@ -52,6 +52,9 @@ for file_idx=1:length(file_efield)
             vol_rot.nframes=size(vol_rot.vol,4);
         end;
         fn=sprintf(sprintf('%s_rot_anat.nii',fstem));
+
+        vol_rot.tr=360/(length(efield_rot)+1);
+        
         MRIwrite(vol_rot,fn);
 
     end;
