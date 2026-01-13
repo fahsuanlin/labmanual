@@ -38,6 +38,8 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 ## EEG-MRI
 
+- [MRI protocol](https://github.com/fahsuanlin/labmanual/wiki/64.-EEG%E2%80%90MRI-protocols)
+
 - [Measurement setup](https://github.com/fahsuanlin/labmanual/wiki/20.-EEG-setup)
 
 - [Data collection cheat sheet](https://github.com/fahsuanlin/labmanual/wiki/33.-EEG-fMRI-acquisition:-MRI-control)
