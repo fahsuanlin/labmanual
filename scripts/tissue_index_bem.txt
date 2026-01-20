@@ -1,0 +1,5 @@
+>Skin : s016_skin.mat : 0.4650 : FreeSpace 
+>Skull : s016_skull.mat : 0.0100 : Skin 
+>CSF : s016_csf.mat : 1.6540 : Skull 
+>GM_LH : s016_gm_lh.mat : 0.2750 : CSF 
+>GM_RH : s016_gm_rh.mat : 0.2750 : CSF 
