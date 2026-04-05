@@ -13,11 +13,11 @@ subject={
     };
 
 cond_nii={
-    'con_0002.nii';
-    'con_0003.nii';
-    'con_0004.nii';
-    'con_0005.nii';
-    'con_0006.nii';
+    'beta_0001.nii','beta_0012.nii','beta_0023.nii','beta_0034.nii','beta_0045.nii','beta_0056.nii';
+    'beta_0002.nii','beta_0013.nii','beta_0024.nii','beta_0035.nii','beta_0046.nii','beta_0057.nii';
+    'beta_0003.nii','beta_0014.nii','beta_0025.nii','beta_0036.nii','beta_0047.nii','beta_0058.nii';
+    'beta_0004.nii','beta_0015.nii','beta_0026.nii','beta_0037.nii','beta_0048.nii','beta_0059.nii';
+    'beta_0005.nii','beta_0016.nii','beta_0027.nii','beta_0038.nii','beta_0049.nii','beta_0060.nii';
     };
 
 cond_str={
@@ -56,20 +56,21 @@ C_str={
 
 stc=[];
 for subj_idx=1:length(subject)
-    for cond_idx=1:length(cond_nii)
-        data=MRIread(sprintf('%s/%s',subject{subj_idx},cond_nii{cond_idx}));
+    for cond_idx=1:size(cond_nii,1)
+        for cond_idx2=1:size(cond_nii,2)
+            data=MRIread(sprintf('%s/%s',subject{subj_idx},cond_nii{cond_idx,cond_idx2}));
 
-        stc=cat(1,stc,data.vol(:)');
-
+            stc=cat(1,stc,data.vol(:)');
+        end;
     end;
 end;
 n_voxels=size(stc,2);
 valid_voxels=find(~isnan(sum(stc,1)));
 
-tmp=repmat(subject(:),1,5)';
+tmp=repmat(subject(:),1,30)';
 Subjects = categorical(tmp(:));
 
-tmp=repmat(cond_str(:),1,9);
+tmp=repmat(cond_str(:),1,54);
 Conditions = categorical(tmp(:));
 
 % --- 1. Define your Contrasts Matrix ---
@@ -186,7 +187,7 @@ for c_idx=1:n_contrasts
 
         data.vol = reshape(masked_tstat, data.volsize);
         data.nframes = 1;
-        MRIwrite(data, sprintf('%s_tstat_FDR05_masked.nii', C_str{c_idx}));
+        MRIwrite(data, sprintf('%s_040526_tstat_FDR05_masked.nii', C_str{c_idx}));
 
     else
         fprintf('Contrast [%d] (%s): 0 voxels survive FDR q<0.05\n', c_idx, C_str{c_idx});
@@ -194,7 +195,7 @@ for c_idx=1:n_contrasts
         % Optionally output a completely blank map for consistency
         data.vol = zeros(data.volsize);
         data.nframes = 1;
-        MRIwrite(data, sprintf('%s_tstat_FDR05_masked.nii', C_str{c_idx}));
+        MRIwrite(data, sprintf('%s_040526_tstat_FDR05_masked.nii', C_str{c_idx}));
     end
 end;
 
@@ -233,16 +234,16 @@ for c_idx = 1:n_contrasts
     % Export T-statistics
     data.vol = reshape(tstat_lme(:,c_idx), data.volsize);
     data.nframes = 1;
-    MRIwrite(data, sprintf('%s_tstat.nii', C_str{c_idx}));
+    MRIwrite(data, sprintf('%s_040526_tstat.nii', C_str{c_idx}));
     
     % Export P-values
     data.vol = reshape(pval_lme(:,c_idx), data.volsize);
-    MRIwrite(data, sprintf('%s_pval.nii', C_str{c_idx}));
+    MRIwrite(data, sprintf('%s_040526_pval.nii', C_str{c_idx}));
 
     % Export Q-values
     data.vol = reshape(qval_lme(:,c_idx), data.volsize);
-    MRIwrite(data, sprintf('%s_qval.nii', C_str{c_idx}));
+    MRIwrite(data, sprintf('%s_040526_qval.nii', C_str{c_idx}));
 end
 
 % Save everything to the .mat file
-save lme_040426 tstat_lme pval_lme qval_lme effect_lme C_matrix C_str;
+save lme_040526 tstat_lme pval_lme qval_lme effect_lme C_matrix C_str;
