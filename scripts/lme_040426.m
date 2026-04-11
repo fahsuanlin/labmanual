@@ -29,17 +29,20 @@ cond_str={
     };
 
 
+% --- 1. Define your Contrasts Matrix (UPDATED FOR INTERCEPT MODEL) ---
+% Model order: [Intercept(0.5Hz), Diff_10Hz3, Diff_10Hz5, Diff_30Hz3, Diff_30Hz5]
 C_matrix = [
-    1  0 0 0 0;             % Contrast 1: 0.5Hz
-    0 1 0 0 0;              % Contrast 2: 10Hz-3ppb
-    0 0 1 0 0;              % Contrast 3: 10Hz-5ppb
-    0 0 0 1 0;              % Contrast 4: 30Hz-3ppb
-    0 0 0 0 1;              % Contrast 5: 30Hz-5ppb
-    -1  1/2  1/2  0  0;     % Contrast 6: 10Hz vs 0.5Hz
-    -1  0  0  1/2  1/2;     % Contrast 7: 30Hz vs 0.5Hz
-    -1  1/4 1/4  1/4  1/4;  % Contrast 8: 10Hz/30Hz vs 0.5Hz
-    0  -1 -1 1 1;           % Contrast 9: 30Hz vs 10Hz
+    1  0    0    0    0;    % Contrast 1: 0.5Hz Mean (Intercept)
+    1  1    0    0    0;    % Contrast 2: 10Hz-3ppb Mean (Int + Diff2)
+    1  0    1    0    0;    % Contrast 3: 10Hz-5ppb Mean (Int + Diff3)
+    1  0    0    1    0;    % Contrast 4: 30Hz-3ppb Mean (Int + Diff4)
+    1  0    0    0    1;    % Contrast 5: 30Hz-5ppb Mean (Int + Diff5)
+    0  0.5  0.5  0    0;    % Contrast 6: 10Hz vs 0.5Hz 
+    0  0    0    0.5  0.5;  % Contrast 7: 30Hz vs 0.5Hz
+    0  0.25 0.25 0.25 0.25; % Contrast 8: 10Hz/30Hz vs 0.5Hz
+    0 -1   -1    1    1;    % Contrast 9: 30Hz vs 10Hz
 ];
+
 
 C_str={
     '0.5hz';
@@ -72,25 +75,7 @@ Subjects = categorical(tmp(:));
 tmp=repmat(cond_str(:),1,9);
 Conditions = categorical(tmp(:));
 
-% --- 1. Define your Contrasts Matrix ---
-% Model order: [0.5Hz, 10Hz-3ppb, 10Hz-5ppb, 30Hz-3ppb, 30Hz-5ppb]
-% Each row is a different contrast you want to test.
 
-n_contrasts = size(C_matrix, 1);
-
-% --- 1. Define your Contrasts Matrix (UPDATED FOR INTERCEPT MODEL) ---
-% Model order: [Intercept(0.5Hz), Diff_10Hz3, Diff_10Hz5, Diff_30Hz3, Diff_30Hz5]
-C_matrix = [
-    1  0    0    0    0;    % Contrast 1: 0.5Hz Mean (Intercept)
-    1  1    0    0    0;    % Contrast 2: 10Hz-3ppb Mean (Int + Diff2)
-    1  0    1    0    0;    % Contrast 3: 10Hz-5ppb Mean (Int + Diff3)
-    1  0    0    1    0;    % Contrast 4: 30Hz-3ppb Mean (Int + Diff4)
-    1  0    0    0    1;    % Contrast 5: 30Hz-5ppb Mean (Int + Diff5)
-    0  0.5  0.5  0    0;    % Contrast 6: 10Hz vs 0.5Hz 
-    0  0    0    0.5  0.5;  % Contrast 7: 30Hz vs 0.5Hz
-    0  0.25 0.25 0.25 0.25; % Contrast 8: 10Hz/30Hz vs 0.5Hz
-    0 -1   -1    1    1;    % Contrast 9: 30Hz vs 10Hz
-];
 n_contrasts = size(C_matrix, 1);
 
 % --- 2. Preallocate Arrays ---
@@ -198,34 +183,6 @@ for c_idx=1:n_contrasts
     end
 end;
 
-% % --- 5. Calculate Exact FDR q-values (Benjamini-Hochberg) ---
-% fprintf('Computing FDR corrected q-values...\n');
-% for c_idx = 1:n_contrasts
-%     % Extract only the valid p-values for this contrast
-%     p_valid = par_pval_all(:, c_idx);
-%     
-%     % Sort p-values
-%     [sorted_p, sort_idx] = sort(p_valid);
-%     m = length(sorted_p);
-%     
-%     % Apply standard BH formula: q = p * (m / rank)
-%     q_sorted = sorted_p .* (m ./ (1:m)');
-%     
-%     % Enforce monotonicity (a q-value cannot be strictly less than a q-value for a smaller p-value)
-%     for k = m-1:-1:1
-%         q_sorted(k) = min(q_sorted(k), q_sorted(k+1));
-%     end
-%     
-%     % Cap q-values at a maximum of 1.0
-%     q_sorted = min(q_sorted, 1);
-%     
-%     % Restore the original voxel order
-%     q_valid = zeros(m, 1);
-%     q_valid(sort_idx) = q_sorted;
-%     
-%     % Map back to the whole brain array
-%     qval_lme(valid_voxels, c_idx) = q_valid;
-% end
 
 % --- 6. Export Results ---
 fprintf('Exporting NIfTI files...\n');
