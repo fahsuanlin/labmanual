@@ -83,7 +83,8 @@ if(~exist(batch_log_dir,'dir'))
 end;
 fsaverage_label_lh=fullfile(average_dir,'sup_mPFC_hippo_ent-lh.label');
 fsaverage_label_rh=fullfile(average_dir,'sup_mPFC_hippo_ent-rh.label');
-dfconn_volume_file=fullfile(fileparts(root_dir),'resting_analysis','compare_dfconn_hippo_entorhinal_060525-anat.nii');
+%dfconn_volume_file=fullfile(fileparts(root_dir),'resting_analysis','compare_dfconn_hippo_entorhinal_060525-anat.nii');
+dfconn_volume_file=fullfile(fileparts(root_dir),'resting_analysis','entorhinal_fconn_native_vol_aseg_060525_gavg_entorhinal-anat.nii');
 volume_threshold=1.0;
 volume_surface_name='orig';
 volume_projfrac=0;
@@ -969,6 +970,122 @@ label_info.combined_label_file=sprintf('%s_both-lh.label',label_info.output_pref
 combined_coord=decimation.full_vertex_coords(label_info.global_vertex_index1,:);
 inverse_write_label(label_info.global_vertex_index0(:), combined_coord(:,1), combined_coord(:,2), combined_coord(:,3), label_info.dfconn_value(:), label_info.combined_label_file);
 label_info.label_files{end+1,1}=label_info.combined_label_file;
+
+% Also rasterize the final native-space ROI into a native-space NIfTI.
+% Use mri_label2vol with white-to-pial projection.  This is preferable to
+% mri_surf2vol here because the ROI labels are native FreeSurfer labels and
+% the output must be a true voxel-space cortical-ribbon mask.
+label_info.native_roi_nii_file=etc_local_write_native_dfconn_roi_nii( ...
+    subject,config.subjects_dir,label_info.label_files(1:2), ...
+    label_info.output_prefix,batch_log_dir);
+fprintf('Wrote native dfconn superior-mPFC ROI NIfTI: %s\n', ...
+    label_info.native_roi_nii_file);
+
+% If the dfconn threshold removes all vertices (as it does for s009), also
+% export the non-thresholded morphed superior-mPFC ROI.  This is a separate
+% file so it cannot be confused with the strict dfconn>threshold ROI.
+if(label_info.total_nvertices==0)
+    base_label_files={subject_label_files.lh,subject_label_files.rh};
+    base_output_prefix=fullfile(tms_dir,'sup_mPFC_hippo_ent');
+    label_info.native_base_roi_nii_file=etc_local_write_native_dfconn_roi_nii( ...
+        subject,config.subjects_dir,base_label_files,base_output_prefix,batch_log_dir);
+    warning('Strict dfconn ROI is empty for %s; exported non-thresholded native ROI: %s', ...
+        subject,label_info.native_base_roi_nii_file);
+end;
+
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function native_roi_nii_file=etc_local_write_native_dfconn_roi_nii(subject, subjects_dir, label_files, output_prefix, batch_log_dir)
+
+setenv('SUBJECTS_DIR',subjects_dir);
+template_file=fullfile(subjects_dir,subject,'mri','orig.mgz');
+if(exist(template_file,'file')~=2)
+    error('Cannot find native volume template [%s].',template_file);
+end;
+if(numel(label_files)<2)
+    error('Expected native lh and rh ROI labels for NIfTI export.');
+end;
+if(~exist(batch_log_dir,'dir'))
+    mkdir(batch_log_dir);
+end;
+
+hemi={'lh','rh'};
+hemi_volume=cell(2,1);
+for hemi_idx=1:2
+    hemi_name=hemi{hemi_idx};
+    label_file=label_files{hemi_idx};
+    if(exist(label_file,'file')~=2)
+        error('Cannot find native ROI label [%s].',label_file);
+    end;
+    hemi_volume{hemi_idx}=sprintf('%s_native_roi-%s.nii.gz',output_prefix,hemi_name);
+    log_file=fullfile(batch_log_dir,sprintf('%s_%s_dfconn_sup_mPFC_label2vol.log',subject,hemi_name));
+    label_data=read_label('',label_file);
+    if(isempty(label_data))
+        % mri_label2vol exits with an error for an empty label.  Still write
+        % a correctly shaped all-zero native volume for that hemisphere so
+        % the combined ROI has valid native geometry.
+        if(exist('MRIread','file')~=2 || exist('MRIwrite','file')~=2)
+            error('MRIread/MRIwrite are required for an empty native ROI label.');
+        end;
+        empty_volume=MRIread(template_file);
+        empty_volume.vol=zeros(size(empty_volume.vol),'single');
+        MRIwrite(empty_volume,hemi_volume{hemi_idx});
+        status=0;
+        cmdout='Empty label: wrote a native all-zero volume from orig.mgz.';
+    else
+        cmd=sprintf(['mri_label2vol --label %s --temp %s --identity --subject %s --hemi %s ' ...
+            '--proj frac 0 1 0.1 --fillthresh 0 --o %s'], ...
+            etc_local_shell_quote(label_file), ...
+            etc_local_shell_quote(template_file), ...
+            etc_local_shell_quote(subject), ...
+            etc_local_shell_quote(hemi_name), ...
+            etc_local_shell_quote(hemi_volume{hemi_idx}));
+        [status,cmdout]=system(cmd);
+    end;
+    fid=fopen(log_file,'w');
+    if(fid>=0)
+        fprintf(fid,'%s\n',cmdout);
+        fclose(fid);
+    end;
+    if(status~=0 || exist(hemi_volume{hemi_idx},'file')~=2)
+        error('mri_label2vol failed for %s. See %s.',hemi_name,log_file);
+    end;
+end;
+
+native_roi_nii_file=sprintf('%s_native_roi-both.nii.gz',output_prefix);
+combine_log=fullfile(batch_log_dir,sprintf('%s_both_dfconn_sup_mPFC_label2vol_combine.log',subject));
+cmd=sprintf('mri_concat --i %s --i %s --max --o %s', ...
+    etc_local_shell_quote(hemi_volume{1}), ...
+    etc_local_shell_quote(hemi_volume{2}), ...
+    etc_local_shell_quote(native_roi_nii_file));
+[status,cmdout]=system(cmd);
+fid=fopen(combine_log,'w');
+if(fid>=0)
+    fprintf(fid,'%s\n',cmdout);
+    fclose(fid);
+end;
+if(status~=0 || exist(native_roi_nii_file,'file')~=2)
+    error('mri_concat failed for combined native ROI. See %s.',combine_log);
+end;
+
+% Also provide an uncompressed .nii path for software that does not inspect
+% .nii.gz automatically.
+native_roi_nii_uncompressed=regexprep(native_roi_nii_file,'\.nii\.gz$','.nii');
+convert_log=fullfile(batch_log_dir,sprintf('%s_both_dfconn_sup_mPFC_label2vol_convert.log',subject));
+cmd=sprintf('mri_convert %s %s', ...
+    etc_local_shell_quote(native_roi_nii_file), ...
+    etc_local_shell_quote(native_roi_nii_uncompressed));
+[status,cmdout]=system(cmd);
+fid=fopen(convert_log,'w');
+if(fid>=0)
+    fprintf(fid,'%s\n',cmdout);
+    fclose(fid);
+end;
+if(status~=0 || exist(native_roi_nii_uncompressed,'file')~=2)
+    error('mri_convert failed for uncompressed native ROI. See %s.',convert_log);
+end;
+native_roi_nii_file=native_roi_nii_uncompressed;
 
 end
 
@@ -2453,9 +2570,8 @@ function pose=etc_local_compute_brainsight_pose(target_coord, coil_center, coil_
 %           native sagittal (Y-Z) plane; anterior is positive.
 %   Lat   = left/right tilt in the native coronal (X-Z) plane; left is
 %           positive for FreeSurfer surface RAS.
-%   Twist is currently reported using the native coil-up convention. Its
-%   exact sign/axis mapping to the Brainsight Twist control requires
-%   validation against the physical coil marker in Brainsight.
+%   Twist = right-handed rotation of the coil-up vector around that
+%           trajectory, relative to the projected superior (+Z) direction.
 % These are the values corresponding to the AP, Lat and Twist target
 % controls; the reported coil center remains the scalp position to enter as
 % the crosshair origin.
@@ -2493,9 +2609,6 @@ if(reference_up_norm<=eps)
     reference_up_norm=norm(reference_up);
 end;
 reference_up=reference_up./reference_up_norm;
-% The simulation coil_up vector is the physical handle direction.  Negate
-% the mathematical right-handed angle so that entering this value in
-% Brainsight reproduces the same handle side shown by the simulation.
 pose.Twist_deg=atan2d(dot(trajectory,cross(reference_up,coil_up)),dot(reference_up,coil_up));
 
 end
