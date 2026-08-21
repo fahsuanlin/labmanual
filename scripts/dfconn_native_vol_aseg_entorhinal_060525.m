@@ -1,17 +1,17 @@
 close all; clear all;
 
 data_path={
-    '/Users/fhlin/workspace/eegmri_memory/s012/resting_data/unpack/bold/005';
+    '/lin2/fhlin/eegmri_memory/s103/resting_data/unpack/bold/006';
     };
 
 reg_file={
-    '/Users/fhlin/workspace/eegmri_memory/s012/resting_data/regressor_wm_ventrical_005.mat';
-    '/Users/fhlin/workspace/eegmri_memory/s012/resting_data/regressor_wm_ventrical_005.mat';
+    '/lin2/fhlin/eegmri_memory/s103/resting_data/regressor_wm_ventrical_006.mat';
+    '/lin2/fhlin/eegmri_memory/s103/resting_data/regressor_wm_ventrical_006.mat';
     };
 
 mc_file={
-    '/Users/fhlin/workspace/eegmri_memory/s012/resting_analysis/mc_regressor_005.mat';
-    '/Users/fhlin/workspace/eegmri_memory/s012/resting_analysis/mc_regressor_005.mat';
+    '/lin2/fhlin/eegmri_memory/s103/resting_analysis/mc_regressor_006.mat';
+    '/lin2/fhlin/eegmri_memory/s103/resting_analysis/mc_regressor_006.mat';
     };
 
 fstem={
@@ -47,7 +47,7 @@ confound_period=[];
 
 
 subject={
-    's012';
+    's103';
     };
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -100,7 +100,7 @@ for aseg_idx=1:length(file_aseg)
                 valid_subj_idx=cat(1,valid_subj_idx,d_idx);
 
                 %fn=sprintf('%s/regressor_wm_ventrical_%s..mat',reg_path{d_idx},subject{d_idx});
-                %fn=sprintf('%s/regressor_wm_ventrical_005.mat',reg_path{d_idx});
+                %fn=sprintf('%s/regressor_wm_ventrical_006.mat',reg_path{d_idx});
                 fn=sprintf('%s',reg_file{aseg_idx});
                 if(exist(fn))
                     D_reg=[];
