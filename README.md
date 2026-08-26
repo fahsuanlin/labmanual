@@ -54,6 +54,9 @@ The web sites of our lab are [here](http://linbrainlab.org) and [here at Sunnybr
 
 - [MEG analysis](https://github.com/fahsuanlin/labmanual/wiki/03.-MEG-analysis-stream) for the data collected at Academia Sinica
 - [EEG analysis](https://github.com/fahsuanlin/labmanual/wiki/02.-EEG-analysis-stream) for EEG dada processing
+- [Visual evoked potential analysis]https://github.com/fahsuanlin/labmanual/wiki/37.-EEG-MRI-analysis) for steady-state visual evoked potential processing
+- [EEG topology preparation](https://github.com/fahsuanlin/labmanual/wiki/55.-EEG-topology-preparation-and-use) for EEG topology preparation
+- [Automatic EEG sensor localization](https://github.com/fahsuanlin/labmanual/wiki/62:-EEG-automatic-sensor-localization) for automatic EEG sensor localization
 
 ## Stereotatic EEG (SEEG)
 
